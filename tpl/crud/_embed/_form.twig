@@ -1,0 +1,133 @@
+
+
+{% macro hiddens(form) %}
+    {% for name, value in form.getHidden %}
+    <input type="hidden" name="{{name}}" value="{{value}}" />
+    {% endfor %}
+{% endmacro %}
+
+{% macro errors(form) %}
+    {% if form.getErrors() %}
+        <p class="bg-danger">
+            {% for errmessage in form.getErrors() %}
+                {{ errmessage }}<br />
+            {% endfor %}
+        </p>
+    {% endif %}
+{% endmacro %}
+
+
+
+{% macro field(field, form, label_class) %}
+    {% import _self as f %}
+    {% set field_own_name = field.getName %}
+    {% set field_name = form.getFieldName(field_own_name) %}
+
+    {% set field_id = field_name|id %}
+    {% set field_value = form.getValue(field_own_name) %}
+    {% set field_errors = form.getErrors(field_own_name) %}
+
+    {% block field %}
+        {% if false %}
+        <div class="form-group{% if field_errors|length > 0 %} has-error has-feedback{% endif %}">
+            {% if field is a('password') %}
+                <label for="{{ field_id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ field.getTitle }}</label>
+                <input type="password" name="{{ field_name }}" class="form-control" id="{{ field_id }}" placeholder="{{ field.getTitle }}"  />
+            {% elseif field is a('checkbox') %}
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="{{ field_name }}" id="{{ field_id }}" value="1" {% if field_value == 1 %}checked="checked"{% endif %}/> {{ field.getTitle }}
+                    </label>
+                </div>
+            {% else %}
+
+                <label for="{{ field_id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ field.getTitle }}</label>
+                <input type="text" name="{{ field_name }}" class="form-control" id="{{ field_id }}" placeholder="{{ field.getTitle }}" value="{{ field_value }}" />
+
+                {{ f.field_error(field, field_errors) }}
+            {% endif %}
+        </div>
+        {% endif %}
+    {% endblock %}
+
+
+
+
+{% endmacro %}
+
+
+{% macro field_error(field, errors) %}
+    {% if errors|length > 0 %}
+        <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+        <span class="help-block">{{ errors|join('<br />') }}<span>
+    {% endif %}
+{% endmacro %}
+
+{% macro field_value(value) %}
+    {% if value is iterable %}
+        {% for v in value %}
+            <span class="label label-default">{{ v }}</span>
+        {% endfor %}
+    {% elseif value is a('datetime') %}
+        {{ value|date('m/d/Y h:i:s')}}
+    {% else %}
+        {{ value }}
+    {% endif %}
+{% endmacro %}
+
+{% macro field_date(form, field, index = '', placeholder = '') %}
+    {% set field_own_name = field.getName %}
+    {% set field_name = form.getFieldName(field_own_name) %}
+
+    {% set field_id = (field_name~index)|id %}
+    {% if index %}
+        {% set field_value = field.formatDataValue(form.getValue(field_own_name)[index]) %}
+    {% else %}
+        {% set field_value = field.formatDataValue(form.getValue(field_own_name)) %}
+    {% endif %}
+    {% set field_errors = form.getErrors(field_own_name) %}
+
+    <input type="hidden" name="{{ field_name }}{% if index %}[{{ index }}]{% endif %}" id="{{ field_id }}_input" value="{{ field_value }}" />
+
+    <div class="input-group date form_datetime" class='input-group date' data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" id='{{ field_id }}'>
+        <input type="text" class="form-control" id="{{ field_id }}_text" placeholder="{% if placeholder %}{{ placeholder|_ }}{% else %}{{ field.getTitle }}{% endif %}" values="{{ field_value }}" {% if field.isReadonly %}readonly="readonly"{% endif %} />
+
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            var input_hidden = $('#{{ field_id }}_input');
+
+            // {{ field_value }}
+
+            var picker = $('#{{ field_id}}').datetimepicker({
+                'format': '{{ field.format }}',
+                'showTodayButton': true
+            }).on('dp.change', function(e) {
+                if (e.date) input_hidden.val(e.date.unix());
+                else input_hidden.val();
+            });
+            if (input_hidden.val()) {
+                picker.data('DateTimePicker').date(moment.unix(input_hidden.val()));
+            }
+        });
+    </script>
+{% endmacro %}
+
+{% macro field_input(form, field, index = '', placeholder = '') %}
+    {% set field_own_name = field.getName %}
+    {% set field_name = form.getFieldName(field_own_name) %}
+
+    {% set field_id = (field_name~index)|id %}
+    {% if index %}
+        {% set field_value = field.formatDataValue(form.getValue(field_own_name)[index]) %}
+    {% else %}
+        {% set field_value = field.formatDataValue(form.getValue(field_own_name)) %}
+    {% endif %}
+    {% set field_errors = form.getErrors(field_own_name) %}
+
+    <input type="{{field.type}}" name="{{ field_name }}{% if index %}[{{ index }}]{% endif %}" class="form-control" id="{{ field_id }}" placeholder="{% if placeholder %}{{ placeholder|_ }}{% else %}{{ field.getTitle }}{% endif %}" value="{{ field_value }}" {% if field.isReadonly %}readonly="readonly"{% endif %} />
+{% endmacro %}

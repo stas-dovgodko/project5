@@ -1,0 +1,61 @@
+use: [web, nls, assetic]
+
+parameters:
+  template.crud.path: []
+
+services:
+  crud.factory:
+      class: project5\Crud\Factory
+
+  crud: @crud.factory
+
+  web.render.crud.loader.twig:
+      scope: prototype
+      class: project5\Template\Loader\Filesystem
+      arguments:
+          - "%template.crud.path%"
+          - ".twig"
+      calls:
+          - [addPath, ["%project5.dir%/tpl/crud/"]]
+
+  web.render.crud:
+      parent: web.render
+      decorates: web.render
+      calls:
+          - [setTemplateRender, ["crud", "@template.render.twig=", "@web.render.crud.loader.twig="]]
+
+  crud.page:
+      scope: prototype
+      lazy: true
+      class: project5\Crud\Page
+      arguments:
+          - @service_container
+      calls:
+          - [setLogger, ["@logger"]]
+          - [setNotifications, ["@web.notifications"]]
+          - [setHtmlDecorator, ["@web.response.decorator.html="]]
+          - [setJsonDecorator, ["@web.response.decorator.json="]]
+
+asset:
+    sbadmin2:
+        file:
+          - "%project5.dir%/web/public/project5/font-awesome-4.5.0/css/font-awesome.css"
+          - "%project5.dir%/web/public/project5/js/jquery-1.11.1.min.js"
+          - "%project5.dir%/web/public/project5/bootstrap/css/bootstrap.css"
+          - "%project5.dir%/web/public/project5/bootstrap/css/bootstrap-theme.css"
+          - "%project5.dir%/web/public/project5/bootstrap/js/bootstrap.js"
+          - "%project5.dir%/web/public/project5/sbadmin/css/sb-admin.css"
+          - "%project5.dir%/web/public/project5/sbadmin/js/plugins/metisMenu/jquery.metisMenu.js"
+          - "%project5.dir%/web/public/project5/sbadmin/js/plugins/morris/raphael-2.1.0.min.js"
+          - "%project5.dir%/web/public/project5/sbadmin/js/plugins/morris/morris.js"
+          - "%project5.dir%/web/public/project5/select2/select2.css"
+          - "%project5.dir%/web/public/project5/select2/select2-bootstrap.css"
+          - "%project5.dir%/web/public/project5/select2/select2.js"
+          - "%project5.dir%/web/public/project5/moment/moment.js"
+          - "%project5.dir%/web/public/project5/datetimepicker/css/bootstrap-datetimepicker.css"
+          - "%project5.dir%/web/public/project5/datetimepicker/js/bootstrap-datetimepicker.min.js"
+          - "%project5.dir%/web/public/project5/sbadmin/js/sb-admin.js"
+          - "%project5.dir%/web/public/project5/jasny-bootstrap/js/jasny-bootstrap.min.js"
+          - "%project5.dir%/web/public/project5/jasny-bootstrap/css/jasny-bootstrap.css"
+          - "%project5.dir%/web/public/project5/bootstrap-sweetalert/sweet-alert.js"
+          - "%project5.dir%/web/public/project5/bootstrap-sweetalert/sweet-alert.css"

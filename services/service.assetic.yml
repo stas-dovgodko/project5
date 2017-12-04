@@ -1,0 +1,71 @@
+use: [cache, web]
+
+imports:
+    - { resource: "twig/assetic.yml"}
+
+parameters:
+    asset.bin.java: "/usr/bin/java"
+    asset.directory: "%compile.dir%"
+    asset.compile.directory: "%asset.directory%"
+    asset.debug: false
+    asset.copy.dirs: []
+
+    asset.cache.directory: "%compile.dir%"
+    asset.dump.templates.directory: ["%template.main.path%", "%template.error.path%"]
+    asset.dump.templates.glob: "*.twig"
+
+    asset.filter.yuicompressor.java: "%asset.bin.java%"
+    asset.filter.yuicompressor.jar: "%project5.dir%/tool/yuicompressor-2.4.8.jar"
+
+    asset.filter.closure-compiler.java: "%asset.bin.java%"
+    asset.filter.closure-compiler.jar: "%project5.dir%/tool/compiler.jar"
+
+services:
+    asset.manager:
+        class:     project5\Assetic\Manager
+        calls:
+            - [setLogger, ["@logger"]]
+
+    asset.cache: @cache.provider.file
+
+    asset.factory:
+        class:     project5\Assetic\Factory
+        arguments: ["@asset.worker.dump", "@asset.cache", "%asset.directory%", "%asset.debug%"]
+        calls:
+             - [setLogger, ["@logger"]]
+             - [setAssetManager, ["@asset.manager"]]
+             - [setFilterManager, ["@asset.filter.manager"]]
+
+    asset: @asset.manager
+
+    asset.filter.yuicss:
+        class:     Assetic\Filter\Yui\CssCompressorFilter
+        arguments: ["%asset.filter.yuicompressor.jar%", "%asset.filter.yuicompressor.java%"]
+
+    asset.filter.closurecompiler:
+        class:     Assetic\Filter\GoogleClosure\CompilerJarFilter
+        arguments: ["%asset.filter.closure-compiler.jar%", "%asset.filter.closure-compiler.java%"]
+
+    asset.filter.yuijs:
+            class:     Assetic\Filter\Yui\JsCompressorFilter
+            arguments: ["%asset.filter.yuicompressor.jar%", "%asset.filter.yuicompressor.java%"]
+
+    asset.filter.manager:
+        class:     Assetic\FilterManager
+        calls:
+             - [set, ["css", "@asset.filter.yuicss"]]
+             - [set, ["js", "@asset.filter.yuijs"]]
+
+    asset.worker.dump:
+        class:     project5\Assetic\Worker
+        arguments: ["%asset.compile.directory%", "@asset.cache"]
+
+cli.tools:
+    dump-assets:
+        command:  project5\Assetic\Dump
+        arguments: ["@asset.factory", "@web.render="]
+        options:
+            copy-dir: "%asset.copy.dirs%"
+
+
+

@@ -1,0 +1,52 @@
+use: [logger]
+
+parameters:
+    upload.prefix: ""
+    upload.images.prefix: "image/"
+    upload.images.exts: [jpg, jpeg, png, gif]
+    upload.images.bytes.max: 5M
+    upload.images.resize.width: 1024
+    upload.images.resize.height: 1024
+    upload.local.chmod: null
+
+    upload.local.dir: "%app.dir%u/"
+    upload.local.uri: u/
+
+
+services:
+    upload.handler.local:
+        class: project5\Upload\Storage\Local
+        arguments:
+            - "%upload.local.dir%"
+            - "%upload.local.uri%"
+            - "%upload.local.chmod%"
+        calls:
+            - [setLogger, ["@logger"]]
+
+    upload.handler:
+        scope: prototype
+        class: project5\Upload\Handler
+        arguments:
+            - "@upload.handler.local"
+        calls:
+            - [setPrefix, ["%upload.prefix%"]]
+            - [setLogger, ["@logger"]]
+
+    upload.handler.images.transformer_thumbnail:
+        scope: prototype
+        class: project5\Stream\Transformer\Thumbnail
+        arguments:
+            - "%upload.images.resize.width%"
+            - "%upload.images.resize.height%"
+
+    upload.handler.images:
+        scope: prototype
+        class: project5\Upload\Handler
+        arguments:
+            - "@upload.handler.local"
+        calls:
+            - [setPrefix, ["%upload.images.prefix%"]]
+            - [limitExtensions, ["%upload.images.exts%"]]
+            - [limitMaxBytes, ["%upload.images.bytes.max%"]]
+            - [transform, ["@upload.handler.images.transformer_thumbnail"]]
+            - [setLogger, ["@logger"]]

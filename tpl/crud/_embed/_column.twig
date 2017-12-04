@@ -1,0 +1,79 @@
+{% macro hcolumn(decorator) %}
+    {{ decorator.title }}
+{% endmacro %}
+
+{% macro column(decorator, item, page) %}
+
+    {% set column = decorator.field %}
+
+    {% if decorator.hasHtml %}
+        {{ decorator.getHtml(item)|raw }}
+    {% else %}
+        {% import '_embed/_form' as forms %}
+
+        {% if decorator.hasUrl %}<a href="{{ decorator.getUrl(item) }}">{% endif %}
+
+        {% if decorator is a('crud') %}
+            {% set value_title = decorator.getValueTitle(item) %}
+
+            {% if decorator.hasUrl %}<span class="label label-primary">{{value_title}}</span>{% else %}<span class="label label-default">{{value_title}}</span>{% endif %}
+        {% elseif decorator is a('enum') %}
+            {% set value_title = decorator.getValueTitle(item) %}
+
+            <span class="label label-default">{{value_title}}</span>
+        {% elseif decorator is a('switcher') %}
+            {% if decorator.isOn(item) %}<span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>{% endif %}
+        {% elseif column is a('nmrelation') %}
+            {% set rel_column = column.getForeignField %}
+            {% set rel_uids = column.getForeignUids(item) %}
+
+            {% for rel_item in rel_uids %}
+
+
+                <span class="label label-primary">{% if rel_column %}
+                                                            {{ rel_column.get(column.getForeignProvider.findByUid(rel_item)) }}
+                                                        {% else %}
+                        {{ column.getForeignProvider.findByUid(rel_item) }}
+                    {% endif %}</span>
+            {% endfor %}
+        {% elseif column is a('relation') %}
+            {% set relation_crud = page.relations[column.getName] %}
+
+
+            {#{% set rel_column = column.getForeignField %}
+            {% set rel_item = column.get(item) %}
+            {% set rel_provider = column.getForeignProvider %}
+            {% if rel_item %}
+                {% if rel_column %}
+                    {{ rel_column.get(rel_provider.findByUid(rel_item)) }}
+                {% else %}
+                    {{ rel_provider.findByUid(rel_item) }}
+                {% endif %}
+            {% endif %}#}
+            {% if relation_crud %}
+                {% set relation_crud_provider = relation_crud.getProvider %}
+                {% set has_edit = relation_crud_provider is a('ICanSave') and relation_crud_provider.canSave and relation_crud.hasEdit %}
+                {% set has_view = relation_crud.hasView %}
+
+                {% if has_edit %}
+                    <a href="{{ relation_crud.urlEdit({'id':page.encodeUid(column.get(item))}) }}">
+                {% elseif has_view %}
+                    <a href="{{ relation_crud.urlView({'id':page.encodeUid(column.get(item))}) }}">
+                {% endif %}
+            {% else %}
+                {% set has_edit = false %}
+                {% set has_view = false %}
+            {% endif %}
+            {{ column.getForeignEntityString(item) }}
+            {% if has_edit or has_view %}
+                </a>
+            {% endif %}
+
+        {% elseif column is a('IField') %}
+            {{ forms.field_value(column.get(item)) }}
+        {% else %}
+            {{ forms.field_value(item) }}
+        {% endif %}
+        {% if decorator.hasUrl %}</a>{% endif %}
+    {% endif %}
+{% endmacro %}

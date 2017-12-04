@@ -1,0 +1,50 @@
+parameters:
+  auth.securesalt: "!@sacenw3crwdsnw34asasdassd54zxcaw_23qad"
+
+  auth.authorizator.provider:
+  auth.authorizator.provider.usernamefield:
+  auth.authorizator.provider.passwordfield:
+  auth.authorizator.provider.passwordhash: md5
+
+  auth.authorizator.provider.roles: []
+  auth.authorizator.provider.roles.field:
+  auth.authorizator.provider.roles.callback:
+
+  auth.filter.class: project5\Auth\Filter\Auth
+  auth.anonymous.class: project5\Auth\Anonymous
+
+services:
+  lock.manager.driver:
+     class: BeatSwitch\Lock\Drivers\ArrayDriver
+     public: false
+
+  lock.manager:
+     class: BeatSwitch\Lock\Manager
+     arguments: ["@lock.manager.driver"]
+     public: false
+
+  auth.anonymous.proto:
+     class: "%auth.anonymous.class%"
+     public: false
+
+  auth.authorizator.config:
+     class: project5\Auth\Authorizator\Config
+     public: false
+
+  auth.main.area: "@app"
+
+  auth.authorizator: @auth.authorizator.config
+
+  auth:
+     class: project5\Auth\Manager
+     arguments: ["@auth.authorizator", "@auth.main.area", "@lock.manager"]
+     calls:
+         - [setLogger, ["@logger"]]
+         - [setAnonymousProto, ["@auth.anonymous.proto"]]
+     tags:
+         - { name: template.render.twig.extension}
+
+  auth.filter:
+       class: "%auth.filter.class%"
+       arguments: ["@auth", "@auth.main.area"]
+

@@ -1,0 +1,8 @@
+parameters:
+    pdo.dsn: "mysql:dbname=mysql;host=127.0.0.1"
+    pdo.username: root
+    pdo.password: ""
+    pdo.options: []
+
+services:
+

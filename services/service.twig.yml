@@ -1,0 +1,43 @@
+use: [web]
+
+imports:
+    - { resource: "twig/cache.yml"}
+    - { resource: "twig/jasny.yml"}
+    - { resource: "twig/web.yml"}
+
+parameters:
+    template.mode: "html5"
+    template.twig.debug: false
+    template.twig.cache: "%compile.dir%"
+
+services:
+    twig.environment:
+        scope: prototype
+        class: Twig_Environment
+
+    template.render.twig.extension.tools:
+        class: project5\Template\Templater\Twig\Extension\Tools
+        tags:
+            -  { name: template.render.twig.extension}
+
+    template.render.twig.extension.config:
+        class: project5\Template\Templater\Twig\Extension\Config
+        arguments: ["@service_container"]
+        tags:
+            -  { name: template.render.twig.extension}
+
+    template.loader.twig:
+        scope: prototype
+        class: project5\Template\Templater\Twig\Loader
+        arguments: ["@web.render="]
+
+    template.render.twig:
+        scope: prototype
+        class: project5\Template\Templater\Twig
+        arguments: ["@twig.environment", "%template.mode%"]
+        attach:
+            template.render.twig.extension: addExtension
+            twig.extension: addExtension
+        calls:
+            - [setDebug, ["%template.twig.debug%"]]
+            - [setCache, ["%template.twig.cache%"]]

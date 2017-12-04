@@ -1,0 +1,48 @@
+{% extends "crud" %}
+
+{% import '_embed/_column' as c %}
+
+{% set has_edit = provider is a('ICanSave') and provider.canSave and page.hasEdit %}
+
+{% block content %}
+<div class="panel-body">
+    {% embed "_embed/breadcrumbs" with {'page': page, 'subtitle': 'View'|_}%}
+    {% endembed %}
+
+
+
+    {% for entity in entities %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{page.encodeUid(entity)}}</h3>
+        </div>
+        <div class="panel-body">
+        <fieldset class="form-horizontal">
+            {% for field in page.provider.getFields %}
+                {% set decorator = page.decorateField(field) %}
+
+
+                {% if decorator %}
+                <div class="form-group" class="col-lg-6">
+                    <label class="col-sm-2 control-label">{{ c.hcolumn(decorator) }}</label>
+
+                    <div class="col-sm-10">
+                        {{ c.column(decorator, entity, page) }}
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </fieldset>
+            </div></div>
+    {% endfor %}
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            {% if page.hasList %}
+                <a href="{{ page.urlList }}" class="btn btn-primary">Back to list</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+

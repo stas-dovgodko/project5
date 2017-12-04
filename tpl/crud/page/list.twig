@@ -1,0 +1,214 @@
+{% extends "crud" %}
+
+{% set can_report = page is a('IHasReport') and page.hasReport %}
+{% set can_report = true %}
+
+{% block toolbar_extra %}
+
+{% endblock %}
+
+{% block list_actions_extraw %}
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="panel-body">
+        {% embed "_embed/breadcrumbs" with {'page': page} %}
+        {% endembed %}
+
+
+        {% block navigation %}
+            {% embed "_embed/navigation" with {'page': page, 'toolbar_extra': block('toolbar_extra')} %}
+                {% block toolbar_buttons %}
+
+                    <div class="btn-group">
+                        {% if can_add %}
+
+
+
+                            <a href="{{ page.urlAdd() }}" class="btn btn-labeled btn-success">
+                                <span class="btn-label"><i class="fa fa-plus-circle" aria-hidden="true"></i></span>
+                                {{ 'Add'|_ }}
+                            </a>
+                        {% endif %}
+
+
+                    {% if can_filter %}
+                        {% if page.inFilter %}
+
+                            <a href="{{ page.urlList(response.getRequest.getParams).withQueryValue('filter',0) }}" class="btn btn-labeled btn-default">
+                                {{ 'Cancel filter'|_ }}<span class="btn-label btn-label-right"><i class="fa fa-times-circle-o" aria-hidden="true"></i></span>
+
+                            </a>
+                        {% else %}
+
+                            <a href="{{ page.urlList(response.getRequest.getParams).withQueryValue('filter',1) }}" class="btn btn-default">
+                                {#<span class="btn-label"><i class="glyphicon glyphicon-search"></i></span>#}
+                                {{ 'Filter'|_ }}
+                            </a>
+                        {% endif %}
+                    {% endif %}
+
+
+                        {{ toolbar_extra|raw }}
+
+                    {% if can_search %}
+
+                        <form class="navbar-form navbar-right" id="search_form" role="search">
+                            <div class="input-group" style="padding-left:20px">
+                                <input type="text" name="search" class="form-control{% if page.getSearch %} focusedInput{% endif %}" placeholder="{{ 'Search'|_ }}" {% if page.getSearch %}value="{{ page.getSearch }}"{% endif %}/>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-success{% if page.getSearch %} focusedInput{% endif %}" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                    {% if page.getSearch %}<a href="{{ page.urlList(response.getRequest.getParams).withQueryValue('search','') }}" class="btn btn-default focusedInput" type="submit" >{{ 'Reset'|_ }}</a>{% endif %}
+                                </span>
+                            </div>
+                            <!-- <button type="submit" class="btn btn-default">Submit</button> -->
+                        </form>
+                    {% endif %}
+
+
+
+                    </div>
+
+                    {% if page.hasActions('list') %}
+                        <div class="btn-group">
+                            {% for key in page.getActions('list') %}
+
+                                {% if page.getActionIcon('list', key) %}
+                                    <a href="{{page.urlAction('list', key)}}" class="btn btn-labeled btn-default">
+                                        <span class="btn-label"><i class="glyphicon glyphicon-{{page.getActionIcon('list', key)}}"></i></span>
+                                        {{ page.getActionTitle('list', key) }}
+                                    </a>
+                                {% else %}
+                                    <a href="{{page.urlAction('list', key)}}" class="btn">
+                                        {{ page.getActionTitle('list', key) }}
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endblock %}
+
+
+            {% endembed %}
+        {% endblock %}
+
+
+        <div class="panel panel-default">
+
+
+
+            {% if tabs or page.filter %}
+                <div class="panel-heading">
+
+                    {% if page.filter %}
+                        {% block filter %}
+                            <div class="panel panel-primary">
+
+                                <div class="panel-body">
+                                    {% embed "_embed/form" with {'form': page.filter}%}
+                                        {% block form_attrs %}{{ parent() }} class="form-horizontal"{% endblock %}
+                                        {% block form_field %}
+                                            {% if not field is a('upload') %}
+                                                <div class="form-group{% if field_errors|length > 0 %} has-error has-feedback{% endif %}">
+                                                    <label class="col-sm-2 control-label" for="{{ field_id }}">{{ field.getTitle }}</label>
+                                                    <div class="col-sm-10">
+                                                        {{ field_html }}
+                                                        {{ field_errors_html }}
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        {% endblock %}
+
+                                        {% block field_crudselect_options2 %}
+                                            placeholder: "Empty",
+                                            allowClear: true,
+                                        {% endblock %}
+                                        {% block form_submit %}
+                                            <div class="form-group">
+                                                <div class="col-sm-offset-2 col-sm-10">
+                                                    <button type="submit" class="btn btn-primary">{{ 'Filter'|_ }}</button>
+                                                    <a href="{{ page.urlList(response.getRequest.getParams).withQueryValue('filter',0) }}" class="btn btn-default">{{ 'Reset'|_ }}</a>
+                                                </div>
+                                            </div>
+                                        {% endblock %}
+
+                                        {% block date_field %}
+                                            {% import '_embed/_form' as forms %}
+
+
+                                            <div class="row">
+                                                <div class="col-md-6">{{ forms.field_date(form, field, 'from', 'From') }}</div>
+                                                <div class="col-md-6">{{ forms.field_date(form, field, 'till', 'Till') }}</div>
+                                            </div>
+
+
+                                        {% endblock %}
+
+
+                                        {% block input_field %}
+                                            {% import '_embed/_form' as forms %}
+
+                                            {% if field.type == 'number' %}
+                                                <div class="row">
+                                                    <div class="col-md-6">{{ forms.field_input(form, field, 'from', 'From') }}</div>
+                                                    <div class="col-md-6">{{ forms.field_input(form, field, 'till', 'Till') }}</div>
+                                                </div>
+                                            {% else %}
+                                                {{ forms.field_input(form, field) }}
+                                            {% endif %}
+                                        {% endblock %}
+
+                                    {% endembed %}
+                                </div>
+                            </div>
+                        {% endblock %}
+                    {% endif %}
+
+
+                    <ul class="nav nav-pills" role="tablist">
+
+                        {% for indx, info in tabs %}
+                            <li role="presentation" {% if tab == indx %}class="active"{% endif %}><a href="{{ info.1 }}">{{ info.0|_() }}</a></li>
+                        {% endfor %}
+
+                        {#<li role="presentation" {% if tab == 'main' %}class="active"{% endif %}><a href="{{ page.urlList() }}">{{ page.getTitle()|_ }}</a></li>
+                        {% for report_name, report_title in page.listReports %}
+                            <li role="presentation" {% if tab == ('report_'~report_name) %}class="active"{% endif %}><a href="{{ page.urlReport(report_name) }}">{{ 'Report: %s'|_(report_title) }}</a></li>
+                        {% endfor %}#}
+                    </ul>
+
+                </div>
+            {% endif %}
+
+            {% set list_actions_extra %}
+                {% block list_actions_extra %}
+s
+                {% endblock %}
+            {% endset %}
+
+            {#<div class="panel-body">#}
+
+    {#{% include  "_embed/datagrid" with {'page':page, 'list_actions_extraq': block('list_actions_extraq')} %}#}
+            {% block list_datagrid %}
+
+                {% embed "_embed/datagrid" with {'page':page} %}
+                    {% block list_actions_extra %}
+
+                    {% endblock %}
+                {% endembed %}
+
+            {% endblock %}
+            {#</div>#}
+
+
+            <div class="panel-footer">
+                {% embed "_embed/pager" with {'page':page} %}
+                {% endembed %}
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

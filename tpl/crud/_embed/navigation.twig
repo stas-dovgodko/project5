@@ -1,0 +1,46 @@
+{% set can_add = page.hasAdd and page.provider is a('ICanSave') and page.provider.canSave %}
+{% set can_filter = page.hasFilter and page.provider is a('ICanBeFiltered') %}
+{% set can_search = page.hasSearch and page.provider is a('ICanSearch') %}
+{% set can_page = page.provider is a('ICanBePaged') %}
+
+
+{% set toolbar %}{% block toolbar_buttons %}{% endblock %}{% endset %}
+
+
+
+{% if can_add or can_filter or can_search or can_page or extra_toolbar|trim or panel_toolbar|trim %}
+
+
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!--<a class="navbar-brand" href="#">List</a>-->
+            </div>
+
+            <form class="navbar-form">
+
+                <div class="nav navbar-nav">
+
+
+
+
+
+
+                        {{ toolbar }}
+
+
+
+                </div>
+            </form>
+
+    </nav>
+
+
+{% endif %}
+

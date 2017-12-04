@@ -1,0 +1,20 @@
+use: [pdo]
+
+parameters:
+    rdbms.dsn: "%pdo.dsn%"
+    rdbms.username: "%pdo.username%"
+    rdbms.password: "%pdo.password%"
+    rdbms.options: "%pdo.options%"
+
+    rdbms.slave.dsns:
+        - "%rdbms.dsn%"
+    rdbms.slave.username: "%rdbms.username%"
+    rdbms.slave.password: "%rdbms.password%"
+    rdbms.slave.options: "%rdbms.options%"
+
+services:
+    rdbms.connection_master:
+        class: project5\Rdbms\Connection
+        arguments: ["%rdbms.dsn%", "%rdbms.options%"]
+        calls:
+            - [setCredentials, ["%rdbms.username%", "%rdbms.password%"]]

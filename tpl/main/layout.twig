@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% block header_title %}
+        {% if meta_title %}
+            <title>{{ meta_title }}</title>
+        {% else %}
+            <title>{% if title %}{{ title }}{% endif %}</title>
+        {%  endif %}
+    {% endblock %}
+
+
+    <script src="/project5/js/jquery-1.11.1.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="/project5/bootstrap/css/bootstrap.min.css"/>
+    <script src="/project5/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Optional theme -->
+    <!--<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css" />-->
+    <link rel="stylesheet" href="/project5/sbadmin/css/sb-admin.css"/>
+    <!--<link rel="stylesheet" href="/css/bootstrap.min.css"/>-->
+
+    <!-- Latest compiled and minified JavaScript -->
+
+
+    {#<script src="/project5/sbadmin/js/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="/project5/sbadmin/js/plugins/dataTables/dataTables.bootstrap.js"></script>#}
+
+    <link rel="stylesheet" href="/project5/select2/select2.css"/>
+    <script src="/project5/select2/select2.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/project5/bootstrap3-wysiwyg-master/dist/bootstrap3-wysihtml5.min.css" />
+    <script src="/project5/bootstrap3-wysiwyg-master/dist/bootstrap3-wysihtml5.all.min.js"></script>
+
+
+    <!-- bootstrap DT picker -->
+    <script type="text/javascript" src="/project5/moment/moment.js"></script>
+    <script type="text/javascript" src="/project5/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="/project5/datetimepicker/css/bootstrap-datetimepicker.min.css" />
+
+
+    <!-- JASNY -->
+    <script type="text/javascript" src="/project5/jasny-bootstrap/js/jasny-bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/project5/jasny-bootstrap/css/jasny-bootstrap.min.css" />
+
+    <style>
+        .focusedInput {
+            border-color: #ccc;
+            border-color: rgba(82,168,236,.8);
+            outline: 0;
+            outline: thin dotted \9;
+            -moz-box-shadow: 0 0 8px rgba(82,168,236,.6);
+            box-shadow: 0 0 8px rgba(82,168,236,.6);
+        }
+        .select2-container .select2-choice {
+            height:34px;
+            padding: 2px 12px 6px 12px;
+        }
+        .has-error .select2-container .select2-choice {
+            border-color: #a94442;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        }
+        table.table th.sortable a {
+            width: 100%;
+            height: 100%; display: block; text-decoration: none;
+        }
+
+        table.table-hover tr:hover .xedit {
+            color: #fff;
+            background-color: #337ab7;
+            border-color: #2e6da4;
+        }
+        table.table-hover tr:hover .xdelete {
+            color: #fff;
+            background-color: #d9534f;
+            border-color: #d43f3a;
+        }
+    </style>
+
+
+    {% block header_extra %}{% endblock %}
+</head>
+<body>
+
+<body>
+{% block body %}
+    <div class="container">
+
+
+
+        {% block menu %}{% endblock %}
+
+
+
+        <div class="panel panel-default">
+            {% block content %}{% endblock %}
+        </div>
+
+
+
+    </div>
+{% endblock %}
+</body>
+
+
+
+
+
+
+</body>
+</html>

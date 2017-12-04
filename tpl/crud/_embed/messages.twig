@@ -1,0 +1,25 @@
+{% block messages %}
+
+
+    {% if notifications.hasErrors %}
+        {% for message in notifications.errors %}
+            {% block messages_notice %}
+                <div class="alert alert-danger alert-dismissible alert-fixed-top" role="alert">{{ message.0|_(message.1) }}<button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button></div>
+            {% endblock %}
+        {% endfor %}
+    {% endif %}
+
+    {% if notifications.hasMessages %}
+        {% for message in notifications.messages %}
+            {% block messages_error %}
+                <div class="alert alert-info alert-dismissible alert-fixed-top" role="alert">{{ message.0|_(message.1) }}<button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button></div>
+            {% endblock %}
+        {% endfor %}
+    {% endif %}
+{% endblock %}

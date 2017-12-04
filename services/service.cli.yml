@@ -1,0 +1,48 @@
+use: [cache]
+
+parameters:
+    cli.app.name:
+    cli.app.version:
+
+
+    cli.env.finder: ""
+    cli.configure.callback: null
+imports:
+
+
+services:
+    cli.front.input:
+        class: Symfony\Component\Console\Input\ArgvInput
+        factory: [project5\Cli\Front, CreateInput]
+
+    cli.front.output:
+        class: Symfony\Component\Console\Output\ConsoleOutput
+        arguments: []
+
+    cli.front:
+        class: project5\Cli\Front
+        arguments: ["%cli.configure.callback%", "@cli.front.input", "@cli.front.output"]
+        attach:
+            console.command: add
+
+
+    cli.tools: @cli.front
+
+    #cli.tools:
+    #    class: project5\Cli\Tools
+    #
+    #    arguments: ["%cli.app.name%", "%cli.app.version%"]
+
+cli.tools:
+    cc:
+        command: project5\Cli\Command\Cc
+        arguments: ["@app", ["@cache.provider.file", "@cache.provider.php"], ["@=container.hasParameter('template.twig.cache') ? parameter('template.twig.cache') : parameter('compile.dir')", "%compile.dir%"]]
+
+    config:
+        command: project5\Cli\Command\Config
+        arguments: ["@service_container"]
+
+    generate:
+        command: project5\Cli\Command\Generator
+        arguments: []
+

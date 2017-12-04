@@ -1,0 +1,33 @@
+parameters:
+    cache.file.directory: "%compile.dir%"
+    cache.file.ext: ".cache"
+    cache.php.ext: ".php"
+
+    cache.php.directory: "%compile.dir%"
+
+    cache.memcached.servers:
+        - ["127.0.0.1", 11211, 1]
+
+services:
+    cache.provider.null:
+        class:     Doctrine\Common\Cache\VoidCache
+
+    cache.provider.file:
+        class:     Doctrine\Common\Cache\FilesystemCache
+        arguments: ["%cache.file.directory%", "%cache.file.ext%", 0000]
+
+    cache.provider.php:
+        class:     Doctrine\Common\Cache\PhpFileCache
+        arguments: ["%cache.php.directory%", "%cache.php.ext%", 0000]
+
+    cache.provider.memcached.connection:
+        class:     \Memcached
+        lazy:      true
+        calls:
+             - [addServers, ["%cache.memcached.servers%"]]
+
+    cache.provider.memcached:
+        class:     Doctrine\Common\Cache\MemcachedCache
+        calls:
+             - [setMemcached, ["@cache.provider.memcached.connection"]]
+

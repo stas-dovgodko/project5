@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<dataset>
+    <class degree="1" letter="A" title="1-A class" />
+    <class degree="2" letter="B" title="2-B class" />
+
+    <student fio="Ivanov" gender="1" degree="1" letter="A" />
+    <student fio="Petrov" gender="1" degree="1" letter="A" />
+    <student fio="Sidorova" gender="2" degree="2" letter="B" />
+</dataset>

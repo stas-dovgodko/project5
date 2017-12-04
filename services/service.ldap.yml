@@ -1,0 +1,21 @@
+parameters:
+    ldap.driver.class: project5\Ldap\Driver\Native
+    ldap.protocol: 3
+    ldap.host: localhost
+    ldap.port: 389
+    ldap.base_dn: dc=webmaniacs,dc=com,dc=ua
+    ldap.bind: cn=admin,dc=webmaniacs,dc=com,dc=ua
+    ldap.bind_password:
+
+services:
+    ldap.driver:
+        class:     "%ldap.driver.class%"
+        arguments: ["%ldap.host%", "%ldap.port%", "%ldap.protocol%"]
+        calls:
+            - [setDn, ["%ldap.base_dn%"]]
+            - [bind,  ["%ldap.bind%", "%ldap.bind_password%"]]
+
+    ldap.provider:
+        class:     project5\Ldap\Provider
+        arguments: ["@ldap.driver"]
+

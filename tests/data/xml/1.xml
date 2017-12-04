@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<items>
+    <item>
+        <a>A</a>
+        <b>B</b>
+        <c>C</c>
+    </item>
+    <item>
+        <a>A</a>
+        <b>B</b>
+        <d>D</d>
+    </item>
+</items>

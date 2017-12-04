@@ -1,0 +1,60 @@
+use: [logger, twig]
+
+parameters:
+    web.debug.panel.vendors: true
+    template.twig.debug: true
+    asset.debug: true
+    web.front.display_errors: true
+    web.front.class: "project5\\Debug\\Decorator\\Web"
+
+imports:
+    - { resource: "debug/service_container.php"}
+
+services:
+    debug.log.handlers:
+        class: project5\Debug\Log\Handlers
+        arguments: ["@logger"]
+
+
+
+    monolog.logger.handler: @monolog.logger.handler.null
+
+    # debugpanel
+    web.debug.panel.timecollector:
+        class: DebugBar\DataCollector\TimeDataCollector
+
+    web.debug.panel:
+        class: project5\Debug\Panel
+        arguments: ["@web.debug.panel.timecollector", "%web.debug.panel.vendors%"]
+        attach:
+            web.debug.panel.collector: addCollector
+        tags:
+            -  { name: web.output.handler}
+
+    web.panel.collector.twig:
+        class: project5\Debug\Panel\TwigCollector
+        arguments: ["@twig.environment"]
+        tags:
+            -  { name: web.debug.panel.collector}
+
+    web.panel.collector.monolog:
+        class: DebugBar\Bridge\MonologCollector
+        arguments: ["@logger"]
+        tags:
+            -  { name: web.debug.panel.collector}
+
+    # decorators
+    debug.twig.environment:
+        class: project5\Debug\Panel\TraceableTwigEnvironment
+        decorates: twig.environment
+        calls:
+            - [setTimeDataCollector, ["@web.debug.panel.timecollector"]]
+
+    debug.asset.worker.dump:
+        class:     project5\Debug\Decorator\Assetic\Worker
+        arguments: ['@debug.asset.worker.dump.inner']
+        decorates: asset.worker.dump
+        calls:
+            - [setTimeDataCollector, ["@web.debug.panel.timecollector"]]
+
+

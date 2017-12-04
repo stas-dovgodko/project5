@@ -1,0 +1,78 @@
+use: [pdo]
+
+parameters:
+    propel.adapter: mysql
+    propel.basename: ""
+    propel.mysql.settings:
+        charset: utf8
+        queries:
+            utf8: "SET NAMES utf8 COLLATE utf8_unicode_ci, COLLATION_CONNECTION = utf8_unicode_ci, COLLATION_DATABASE = utf8_unicode_ci, COLLATION_SERVER = utf8_unicode_ci"
+
+    propel.attributes:
+        ATTR_EMULATE_PREPARES: false
+
+    propel.default.configuration:
+        classname: \Propel\Runtime\Connection\ConnectionWrapper
+        dsn: "%pdo.dsn%"
+        user: "%pdo.username%"
+        password: "%pdo.password%"
+        attributes: "%propel.attributes%"
+        settings: "%propel.mysql.settings%"
+
+
+    propel.config-dir: "inf/"
+    propel.schema-dir: "inf/"
+    propel.model-dir: "inf/"
+    propel.sql-dir: "%propel.schema-dir%"
+    propel.migrate-dir: "%propel.sql-dir%/migrate/"
+    propel.connections: { "%propel.basename%": ["%propel.adapter%", "%propel.default.configuration%"] }
+
+imports:
+    - { resource: "propel/service_container.php"}
+
+services:
+    propel.provider.factory:
+        class: project5\Propel\ProviderFactory
+
+    propel: @propel.provider.factory
+
+    propel.write_connection:
+        class: Propel\Runtime\Connection\ConnectionInterface
+        factory: ["@propel.service_container", "getWriteConnection"]
+        arguments: ["%propel.basename%"]
+
+    propel.read_connection:
+        class: Propel\Runtime\Connection\ConnectionInterface
+        factory: ["@propel.service_container", "getReadConnection"]
+        arguments: ["%propel.basename%"]
+
+cli.tools:
+    propel-build:
+        command:  project5\Propel\Cli\Model
+        arguments:
+            - "%propel.connections%"
+            - "%compile.dir%"
+        options:
+            config-dir: "%propel.config-dir%"
+            schema-dir: "%propel.schema-dir%"
+            output-dir: "%propel.model-dir%"
+
+    propel-sql:
+        command: project5\Propel\Cli\Sql
+        arguments:
+            - "%propel.connections%"
+            - "%compile.dir%"
+        options:
+            config-dir: "%propel.config-dir%"
+            schema-dir: "%propel.schema-dir%"
+            output-dir: "%propel.sql-dir%"
+
+    propel-migrate:
+        command: project5\Propel\Cli\Migrate
+        arguments:
+            - "%propel.connections%"
+            - "%compile.dir%"
+        options:
+            config-dir: "%propel.config-dir%"
+            schema-dir: "%propel.schema-dir%"
+            output-dir: "%propel.migrate-dir%"

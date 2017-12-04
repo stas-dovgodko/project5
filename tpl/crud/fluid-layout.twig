@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% block header_title %}
+        {% if meta_title %}
+            <title>{{ meta_title }}</title>
+        {% else %}
+            <title>{{ 'Admin'|_ }}
+                {% if page is a('Page') %} - {{ page.title }}{% endif %}
+                {% if title %} - {{ title|_ }}{% endif %}</title>
+        {% endif %}
+    {% endblock %}
+
+    {% stylesheets filter="?css" output='css/crud_sbadmin.css'
+    '@sbadmin2' %}
+    <link href="/m/{{ asset_url }}" type="text/css" rel="stylesheet"/>
+    {% endstylesheets %}
+
+
+    <style>
+        .focusedInput {
+            border-color: #ccc;
+            border-color: rgba(82, 168, 236, .8);
+            outline: 0;
+            outline: thin dotted \9;
+            -moz-box-shadow: 0 0 8px rgba(82, 168, 236, .6);
+            box-shadow: 0 0 8px rgba(82, 168, 236, .6);
+        }
+
+        .select2-container .select2-choice {
+            height: 34px;
+            padding: 2px 12px 6px 12px;
+        }
+
+        .has-error .select2-container .select2-choice {
+            border-color: #a94442;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        }
+
+        table.table th.sortable a {
+            width: 100%;
+            height: 100%;
+            display: block;
+            text-decoration: none;
+        }
+
+        table.table-hover tr:hover .xedit {
+            color: #fff;
+            background-color: #337ab7;
+            border-color: #2e6da4;
+        }
+
+        table.table-hover tr:hover .xdelete {
+            color: #fff;
+            background-color: #d9534f;
+            border-color: #d43f3a;
+        }
+        html, body {
+            height:100%;
+        }
+        body {
+            background-color: white;
+            padding-top: 0;
+
+        }
+        nav.navbar {
+            border-radius: 0;
+
+        }
+        #wrapper {
+            height: 100%;
+
+        }
+        #wrapper > nav.navbar {
+position: fixed; top: 0; width: 100%; z-index: 100;
+        }
+        #page-wrapper {
+            margin: 0 0;
+            height: 100%; width: 100%;
+            min-height: 100%;top:0;
+            position: absolute;
+        }
+        #page-wrapper > .container-fluid {
+            background-color: #fefefe;
+            padding-top: 60px;
+            padding-bottom: 30px;
+            border-left:1px solid #e7e7e7;
+            border-right:1px solid #e7e7e7;
+            min-height: 100%;
+        }
+    </style>
+
+
+    {% block header_extra %}{% endblock %}
+
+
+</head>
+<body>
+
+
+{% javascripts  output='js/crud_sbadmin.js' filter="?js"
+'@sbadmin2'
+ %}
+<script src="/m/{{ asset_url }}"></script>
+{% endjavascripts %}
+
+
+{% block body %}
+    <div id="wrapper">
+
+
+        {% block menu %}
+
+        {% endblock %}
+
+        {% embed "_embed/messages" with {'notifications': page.notifications|default(notifications)} %}
+        {% endembed %}
+
+        <div id="page-wrapper">
+            <div class="container-fluid">{% block content %}{% endblock %}</div>
+        </div>
+
+
+    </div>
+{% endblock %}
+
+<script>
+    jQuery(document).ready(function($) {
+        $("a[data-confirm]").click(function(event) {
+            event.preventDefault();
+
+            //var href = $(event.target).attr('href');
+            swal({
+                title: "Are you sure?",
+                text: $(event.target).data('confirm'),
+                type: "warning",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                confirmButtonClass: 'btn-danger waves-effect waves-light',
+                confirmButtonText: 'Yes'
+            },function(isConfirm){
+                if (isConfirm) {
+                    location.href = this.attr('href');
+                }
+            }.bind($(event.target)));
+        });
+
+        $("button[data-confirm]").click(function(event) {
+            event.preventDefault();
+
+            swal({
+                title: "Are you sure?",
+                text: $(event.target).data('confirm'),
+                type: "warning",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                confirmButtonClass: 'btn-danger waves-effect waves-light',
+                confirmButtonText: 'Yes'
+            },function(isConfirm){
+                if (isConfirm) {
+                    $(this).parents('form:first').submit();
+                }
+            }.bind($(event.target)));
+        });
+    });
+</script>
+
+{% block js %}
+
+{% endblock %}
+
+</body>
+</html>

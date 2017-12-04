@@ -1,0 +1,84 @@
+{% macro pager(page) %}
+    {% if page.provider is a('ICanBePaged') %}
+        {% set paged_provider = page.provider %}
+
+
+        {% if paged_provider is a('ICanBeCounted') and paged_provider.canBeCounted %}
+                {% set count = paged_provider.count %}
+                {% set limit = paged_provider.pagerLimit %}
+                {% set offset = paged_provider.pagerOffset %}
+
+                {% set current_page  = (offset/limit)|round(0, 'ceil') + 1 %}
+                {% set pages_count = (count/limit)|round(0, 'ceil') %}
+                {% set from  = (current_page-1) * limit + 1 %}
+                {% set till  = min(current_page * limit, count) %}
+
+                <p>
+                    {{ 'Page <strong>%d</strong> from <strong>%d</strong>'|_(current_page, pages_count)|raw }}
+                </p>
+                <p>
+                    {{ 'Show records from <strong>%d</strong> to <strong>%d</strong> / <strong>%d</strong> In total'|_(from, till, count)|raw }}
+                </p>
+            {% endif %}
+
+        <ul class="pagination" style="margin:0">
+
+            {% if paged_provider.hasPrevPage %}
+                <li><a href="{{ page.urlList({'offset':paged_provider.prevPageOffset}) }}">&laquo;</a></li>
+            {% endif %}
+
+            {% if paged_provider is a('ICanBeCounted') and paged_provider.canBeCounted %}
+                {% set count = paged_provider.count %}
+                {% set items = 5 %}
+                {% set limit = paged_provider.pagerLimit %}
+
+                {% set current_page  = (paged_provider.pagerOffset/limit)|round(0, 'ceil') + 1 %}
+                {% set pages_count = (count/limit)|round(0, 'ceil') %}
+
+                {% set pages_min = max(1, current_page - (items - 1)//2) %} {# max(1, $this->_pageNumber - floor(($count - 1)/2)) #}
+                {% set pages_max = pages_min + items - 1 %}
+
+                {% if pages_max > pages_count %}
+                    {% set pages_max = max(1, pages_count) %}
+                    {% set pages_min = max(1, pages_max - items + 1) %} {# max(1, $this->_pageNumber - floor(($count - 1)/2)) #}
+                {% endif %}
+
+                {% for pagenum in range(pages_min, pages_max) %}
+                    {% set page_offset = (pagenum-1)*limit %}
+                    <li{% if current_page == pagenum %} class="active"{% endif %}><a href="{{ page.urlList({'offset':page_offset}) }}" >{{ pagenum }}</a></li>
+                {% endfor %}
+            {% endif %}
+
+
+            {% if paged_provider.hasNextPage %}
+                <li><a href="{{ page.urlList({'offset':paged_provider.nextPageOffset}) }}">&raquo;</a></li>
+            {% endif %}
+
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ 'Per page %d'|_(paged_provider.getPagerLimit) }} <span class="caret"></span></a>
+
+                <ul class="dropdown-menu" role="menu">
+                    <li><a tabindex="-1" href="{{ page.urlList({'perpage':10}) }}">10</a></li>
+                    <li><a tabindex="-1" href="{{ page.urlList({'perpage':50}) }}">50</a></li>
+                    <li><a tabindex="-1" href="{{ page.urlList({'perpage':100}) }}">100</a></li>
+                    <li class="divider"></li>
+                    {% if paged_provider.hasPrevPage %}
+                        <li><a href="{{ page.urlList({'offset':paged_provider.getPrevPageOffset}) }}"><span class="glyphicon glyphicon-chevron-left"></span> {{ 'Back'|_ }}</a></li>
+                    {% endif %}
+                    {% if paged_provider.hasNextPage %}
+                        <li><a href="{{ page.urlList({'offset':paged_provider.getNextPageOffset}) }}"><span class="glyphicon glyphicon-chevron-right"></span> {{ 'Next'|_ }}</a></li>
+                    {% endif %}
+                </ul>
+
+
+            </li>
+        </ul>
+    {% endif %}
+{% endmacro %}
+
+{% block pager %}
+    {{ _self.pager(page) }}
+{% endblock %}

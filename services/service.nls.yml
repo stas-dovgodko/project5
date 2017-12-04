@@ -1,0 +1,80 @@
+use: [web]
+
+parameters:
+    nls.locale: %nls.locale.default%
+    nls.locale.supported: ["en","ru","uk"]
+    nls.locale.default: en
+    nls.locale.detectors:
+        - "@nls.locale.detector.get"
+
+    nls.locale.fallback-detectors:
+        - "@nls.locale.detector.browser"
+        - "@nls.locale.detector.config"
+
+    nls.gettext.transations.dir: ""
+    nls.gettext.locales:
+        ru: ru_RU.UTF-8
+        en: en_GB.UTF-8
+
+    nls.gettext.dump-pot: true
+    nls.gettext.dump-pot.dir: "%nls.gettext.transations.dir%"
+
+    nls.translator: "@nls.translator.gettext"
+
+services:
+    nls.translator:
+        class: project5\Nls\I18n\Translator
+
+    nls.translator.gettext:
+        class: project5\Nls\I18n\Gettext\Translator
+        arguments: ["%nls.gettext.transations.dir%", %nls.gettext.locales%, "@=parameter('nls.gettext.dump-pot') ? parameter('nls.gettext.dump-pot.dir') : ''"]
+
+    nls.twig.extension:
+        class: project5\Nls\Support\TwigExtension
+        arguments: ["%nls.translator%", "@nls.locale.manager"]
+        tags:
+            -  { name: template.render.twig.extension}
+
+    nls.locale.detector.browser:
+        class: project5\Nls\LocaleDetector\Browser
+        arguments: ["@web.front.request"]
+
+    nls.locale.detector.get:
+        class: project5\Nls\LocaleDetector\Get
+        arguments: ["@web.front.request"]
+
+    nls.locale.detector.config:
+        class: project5\Nls\LocaleDetector\Config
+        arguments: ["%nls.locale.default%"]
+
+    nls.locale.manager:
+        class: project5\Nls\LocaleManager
+        arguments:
+            - "%nls.locale.supported%"
+            - "%nls.locale.detectors%"
+
+
+    nls.filter:
+        class: project5\Nls\Filter
+        arguments:
+            - "@nls.locale.manager"
+            - "%nls.locale.fallback-detectors%"
+
+    nls.provider.countries:
+        class: project5\Nls\Provider\CountryNames
+        lazy: true
+        arguments:
+            - "%nls.locale.supported%"
+
+    nls.provider.languages:
+        class: project5\Nls\Provider\LanguageNames
+        lazy: true
+        arguments:
+            - "%nls.locale.supported%"
+
+
+cli.tools:
+    merge-po:
+        command: project5\Nls\I18n\Gettext\MergeCommand
+        properties:
+            dir: "%nls.gettext.dump-pot.dir%"

@@ -1,0 +1,35 @@
+use: [cache]
+
+imports:
+
+
+services:
+    twig.cache.provider: "@cache.provider.php"
+
+    twig.cache.adapter:
+        class: project5\Template\Templater\Twig\Extension\Cache\Adapter
+        arguments: ["@twig.cache.provider"]
+        calls:
+            - [setLogger, ["@logger"]]
+
+    twig.cache.key-generator:
+        class: project5\Template\Templater\Twig\Extension\Cache\KeyGenerator
+
+    twig.cache.strategy.lifetime:
+        class: Asm89\Twig\CacheExtension\CacheStrategy\LifetimeCacheStrategy
+        arguments: ["@twig.cache.adapter"]
+
+    twig.cache.strategy.generational:
+        class: Asm89\Twig\CacheExtension\CacheStrategy\GenerationalCacheStrategy
+        arguments: ["@twig.cache.adapter", "@twig.cache.key-generator"]
+
+    twig.cache.strategy:
+        class: Asm89\Twig\CacheExtension\CacheStrategy\IndexedChainingCacheStrategy
+        arguments:
+            - {lifetime: "@twig.cache.strategy.lifetime", if: "@twig.cache.strategy.generational"}
+
+    template.render.twig.extension.cache:
+        class: Asm89\Twig\CacheExtension\Extension
+        arguments: ["@twig.cache.strategy"]
+        tags:
+            -  { name: template.render.twig.extension}

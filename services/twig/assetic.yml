@@ -1,0 +1,13 @@
+use: [assetic]
+
+imports:
+
+
+services:
+
+
+    template.render.twig.extension.assetic:
+        class: Assetic\Extension\Twig\AsseticExtension
+        arguments: ["@asset.factory"]
+        tags:
+            -  { name: template.render.twig.extension}

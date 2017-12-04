@@ -1,0 +1,21 @@
+parameters:
+    monolog.channel: logger
+
+services:
+    monolog.logger:
+        class: Monolog\Logger
+        arguments: ["%monolog.channel%", ["@monolog.logger.handler"]]
+
+    monolog.logger.handler.null:
+        class: Monolog\Handler\NullHandler
+        arguments: [0]
+
+    monolog.logger.handler.chrome:
+        class: Monolog\Handler\ChromePHPHandler
+        arguments: [0]
+
+    monolog.logger.handler.errorlog.system:
+        class: Monolog\Handler\ErrorLogHandler
+        arguments: [0]
+
+    monolog.logger.handler: @monolog.logger.handler.null

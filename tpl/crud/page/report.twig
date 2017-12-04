@@ -1,0 +1,107 @@
+{% extends "crud" %}
+
+
+{% block content %}
+
+    <div class="panel-body">
+
+        {% embed "_embed/breadcrumbs" with {'page': page} %}
+        {% endembed %}
+
+        {% block navigation %}
+            {% embed "_embed/navigation" with {'page': page, 'provider': provider} %}
+                {% block toolbar_extra %}{% endblock %}
+
+                {% block data_body %}
+                    <div class="panel-body">
+                        <div class="row">
+
+                            {% for plot in plots %}
+                                <div class="col-lg-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            Donut Chart Example
+                                        </div>
+                                        <!-- /.panel-heading -->
+                                        <div class="panel-body">
+                                            <div id="chart_{{ loop.index }}"></div>
+                                        </div>
+                                        <!-- /.panel-body -->
+                                    </div>
+                                    <!-- /.panel -->
+                                </div>
+
+                            {% endfor %}
+
+
+                        </div>
+
+                        {% embed "_embed/datagrid" with {'page':page, 'provider': aggregator} %}
+                        {% endembed %}
+                    </div>
+                {% endblock %}
+
+                {% block data_footer %}
+
+                {% endblock %}
+
+
+            {% endembed %}
+        {% endblock %}
+
+
+
+
+        <!-- Morris Charts JavaScript -->
+        <script src="/sbadmin/js/plugins/morris/raphael-2.1.0.min.js"></script>
+        <script src="/sbadmin/js/plugins/morris/morris.js"></script>
+
+        {% for plot in plots %}
+            {% if plot is a('Pie') %}
+                <script>
+                    //<![CDATA[
+                    $(function () {
+                        Morris.Donut({
+                            element: 'chart_{{ loop.index }}',
+                            data: {{ plot.getData|json_encode()|raw }},
+                            resize: true
+                        });
+                    });
+                    //]]>
+                </script>
+                {% elseif plot is a('Bar') %}
+                <script>
+                    //<![CDATA[
+                    $(function () {
+                        Morris.Bar({
+                            element: 'chart_{{ loop.index }}',
+                            data: {{ plot.getData|json_encode()|raw }},
+                            xkey: {{ plot.getXkey|json_encode()|raw }},
+                            ykeys: {{ plot.getYkeys|json_encode()|raw }},
+                            labels: {{ plot.getLabels|json_encode()|raw }}
+                        });
+                    });
+                    //]]>
+                </script>
+            {% endif %}
+        {% endfor %}
+
+
+
+
+        {% if page.hasExtlist %}
+            {% if provider is a('IHasShortView') %}
+                <div class="btn-group pull-right">
+                    <a href="{{ page.urlList({'ext':0}) }}" type="button"
+                       class="btn {% if provider.inShortState %}btn-primary{% else %}btn-default{% endif %}"><span
+                                class="glyphicon glyphicon-th-list"></span> Compact</a>
+                    <a href="{{ page.urlList({'ext':1}) }}" type="button"
+                       class="btn {% if not provider.inShortState %}btn-primary{% else %}btn-default{% endif %}"><span
+                                class="glyphicon glyphicon-list"></span> More</a>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+
+
+{% endblock %}

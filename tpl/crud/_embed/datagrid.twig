@@ -1,0 +1,204 @@
+{% import '_embed/_column' as c %}
+
+
+
+
+
+{% block list %}
+    {% set provider = provider|default(page.provider) %}
+    {% set fields = provider.getFields(page.getFieldsFilter) %}
+    {% set has_edit = provider is a('ICanSave') and provider.canSave and page.hasEdit %}
+    {% set has_view = page.hasView %}
+    {% set has_delete = provider is a('ICanDelete') and provider.canDelete and page.hasDelete %}
+    {% set id = ''|id %}
+
+    <form action="" method="post" id="{{ id }}_form">
+        <input type="hidden" name="do" value="" />
+    <table class="table table-hover table-striped" id="{{ id }}">
+
+        <thead>
+        <tr>
+
+            {% block list_header %}
+                {% if has_edit or has_delete %}
+                    <th>
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                                <i class="fa fa-list" aria-hidden="true"></i>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                <li role="presentation" class="selectall"><a role="menuitem" tabindex="-1" href="#">{{ 'Check all'|_ }}</a></li>
+                                <li role="presentation" class="deselectall"><a role="menuitem" tabindex="-1" href="#">{{ 'Clean all'|_ }}</a>
+                                <li role="presentation" class="divider"></li>
+                                {#<li role="presentation" class="medit"><a role="menuitem" tabindex="-1" href="#">{{ 'Edit'|_ }}</a></li>#}
+
+                                {% if has_delete %}
+                                    <li role="presentation" class="mdelete"><a role="menuitem" tabindex="-1" href="#">{{ 'Delete'|_ }}</a></li>
+                                {% endif %}
+                                {% if has_view %}
+                                    <li role="presentation" class="mview"><a role="menuitem" tabindex="-1" href="#">{{ 'View'|_ }}</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </th>
+                {% endif %}
+
+                {% for column in fields %}
+                    {% set decorator = page.decorateField(column) %}
+
+                    {% if decorator and not decorator.isFlagEnabled(constant('FLAG_HIDE_LIST', decorator)) %}
+
+                        {% set is_sortable = sortable[column.getName] %}
+                        <th {% if is_sortable %}class="sortable"{% endif %}>
+                            {% if is_sortable and sortable[column.getName].url %}
+                            <a href="{{ sortable[column.getName].url }}" style="white-space: nowrap">
+                                {% endif %}
+                                {{ c.hcolumn(decorator) }}
+
+
+                                {% if is_sortable %}
+                                {% if sortable[column.getName].current == 'desc_' %}
+                                    <span class="order dropdown"><span class="caret" style="margin: 10px 5px;"></span></span>
+                                {% elseif sortable[column.getName].current == 'asc_' %}
+                                    <span class="order dropup"><span class="caret" style="margin: 10px 5px;"></span></span>
+                                {% endif %}
+                                {% if sortable[column.getName].url %}
+                            </a>
+                            {% endif %}
+                            {% endif %}
+
+                        </th>
+                    {% endif %}
+                {% endfor %}
+
+                <th style="width:200px"></th>
+            {% endblock %}
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for item in provider.iterate() %}
+            <tr >
+                {% if has_edit or has_delete %}
+                    <td><input type="checkbox" name="mpk[]" value="{{ page.encodeUid(item)|e }}" /></td>
+                {% endif %}
+                {% block list_data %}
+                    {% for column in fields %}
+                        {% set decorator = page.decorateField(column) %}
+
+                        {% if decorator and not decorator.isFlagEnabled(constant('FLAG_HIDE_LIST', decorator)) %}
+                            <td>{{ c.column(decorator, item, page) }}</td>
+                        {% endif %}
+                    {% endfor %}
+                {% endblock %}
+
+
+
+                {% block list_actions %}
+                    <td>
+                        <div  class="pull-right">
+                            {% block list_actions_extra %}
+                            {% endblock %}
+                            {% if has_edit %}
+                                <a class="btn btn-default btn-xs xedit" href="{{ page.urlEdit({'id':page.encodeUid(item)}) }}" role="link" title="{{ 'Edit'|_ }}">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                            {% elseif has_view %}
+                                <a class="btn btn-default btn-xs xview" href="{{ page.urlView({'id':page.encodeUid(item)}) }}" role="link" title="{{ 'View'|_ }}">
+                                    <i class="fa fa-file-o" aria-hidden="true"></i>
+                                </a>
+                            {% endif %}
+
+                            {% if has_delete %}
+                                <a class="btn btn-default btn-xs xdelete" href="{{ page.urlDelete({'id':page.encodeUid(item)}) }}" role="link" title="{{ 'Delete'|_ }}">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </td>
+
+
+                {% endblock %}
+            </tr>
+        {% else %}
+            {% set colspan = 1 %}
+            <tr>
+                {% if has_edit or has_delete %}
+                    {% set colspan = colspan+1 %}
+                {% endif %}
+
+                {% for column in fields %}
+                    {% set decorator = page.decorateField(column) %}
+
+                    {% if decorator and not decorator.isFlagEnabled(constant('FLAG_HIDE_LIST', decorator)) %}
+                        {% set colspan = colspan+1 %}
+                    {% endif %}
+                {% endfor %}
+
+                <td colspan="{{ colspan }}">{{ 'No records found'|_ }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        </form>
+
+    <script>
+        $(document).ready(function() {
+            var initstate = function() {
+                var has_selected = ($("#{{ id }} input[name='mpk[]']:checked").length > 0);
+                var has_allselected = ($("#{{ id }} input[name='mpk[]']:checked").length == $("#{{ id }} input[name='mpk[]']").length);
+                if (has_selected) {
+                    $("#{{ id }} .medit").removeClass('disabled');
+                    $("#{{ id }} .mdelete").removeClass('disabled');
+                    $("#{{ id }} .mview").removeClass('disabled');
+                    $("#{{ id }} .deselectall").removeClass('disabled');
+                    if (has_allselected) $("#{{ id }} .selectall").addClass('disabled');
+                    else $("#{{ id }} .selectall").removeClass('disabled');
+                } else {
+                    $("#{{ id }} .medit").addClass('disabled');
+                    $("#{{ id }} .mdelete").addClass('disabled');
+                    $("#{{ id }} .mview").addClass('disabled');
+                    $("#{{ id }} .deselectall").addClass('disabled');
+                    $("#{{ id }} .selectall").removeClass('disabled');
+                }
+            };
+            initstate();
+            $("#{{ id }} .selectall a").click(function() {
+                $("#{{ id }} input[name='mpk[]']").each(function() {
+                    this.checked = true;
+                });
+                initstate();
+            });
+            $("#{{ id }} .deselectall a").click(function() {
+                $("#{{ id }} input[name='mpk[]']").each(function() {
+                    this.checked = false;
+                });
+                initstate();
+            });
+            $("#{{ id }} input[name='mpk[]']").change(function() {
+                initstate();
+            });
+            $("#{{ id }} .medit a").click(function() {
+                $("#{{ id }}_form input[name='do']").val('edit');
+                $("#{{ id }}_form").submit();
+            });
+            {% if has_delete %}
+                $("#{{ id }} .mdelete a").click(function() {
+
+                    $("#{{ id }}_form").attr('action', '{{ page.urlMdelete() }}');
+                    $("#{{ id }}_form").submit();
+                });
+            {% endif %}
+            {% if has_view %}
+            $("#{{ id }} .mview a").click(function() {
+
+                $("#{{ id }}_form").attr('action', '{{ page.urlMview() }}');
+                $("#{{ id }}_form").submit();
+            });
+            {% endif %}
+        });
+    </script>
+{% endblock %}
+
+

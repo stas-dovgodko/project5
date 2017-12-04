@@ -1,0 +1,11 @@
+use: [web]
+
+imports:
+
+
+services:
+    template.render.twig.extension.web:
+        class: project5\Template\Templater\Twig\Extension\Web
+        arguments: ["@web.front"]
+        tags:
+            -  { name: template.render.twig.extension}

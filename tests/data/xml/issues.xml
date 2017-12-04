@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues type="array" limit="25" offset="0" total_count="1611">
+    <issue>
+        <id>12559</id>
+        <project name="Olanola" id="9"/>
+        <tracker name="Task" id="4"/>
+        <status name="New" id="1"/>
+        <priority name="Normal" id="4"/>
+        <author name="Artem Stupakov" id="111"/>
+        <assigned_to name="Stas Dovgodko" id="74"/>
+        <category name="Социальная часть" id="3"/>
+        <subject>Сделать в модерилке правильную ссылку на спам</subject>
+        <description>http://mdr.mtml.ru/people?obj_id=112391483
+            http://grabilla.com/04a16-e0fcdd60-779d-4f13-96ba-f68a42a88297.png
+            Эта ссылка открывает сейчас http://mdr.mtml.ru/people/spam?id=112391483 главную страницу спам, а должна
+            открывать материал спама.
+            Алёна: Я не могу тебе дать пример, это было в прежней версии модерилки, которую уже изменили.
+            Открывалось окошко с текстом, кликаешь, а там - все негодяи (пример) в рамочке.
+        </description>
+        <start_date>2014-10-22</start_date>
+        <due_date></due_date>
+        <done_ratio>0</done_ratio>
+        <estimated_hours></estimated_hours>
+        <created_on>2014-10-22T12:41:52+04:00</created_on>
+        <updated_on>2014-10-22T12:41:52+04:00</updated_on>
+    </issue>
+    <issue>
+        <id>12558</id>
+        <project name="IT&amp;Operations (Сис. Адм.)" id="5"/>
+        <tracker name="Task" id="4"/>
+        <status name="New" id="1"/>
+        <priority name="Normal" id="4"/>
+        <author name="Sergey Korobanov" id="21"/>
+        <assigned_to name="Sergey Korobanov" id="21"/>
+        <subject>location на cdn для отдачи неизмененных картинок</subject>
+        <description></description>
+        <start_date>2014-10-22</start_date>
+        <due_date></due_date>
+        <done_ratio>0</done_ratio>
+        <estimated_hours></estimated_hours>
+        <created_on>2014-10-22T12:40:51+04:00</created_on>
+        <updated_on>2014-10-22T12:40:51+04:00</updated_on>
+    </issue>
+    <issue>
+        <id>12557</id>
+        <project name="Olanola" id="9"/>
+        <tracker name="Bug" id="1"/>
+        <status name="New" id="1"/>
+        <priority name="Normal" id="4"/>
+        <author name="Stas Dovgodko" id="74"/>
+        <assigned_to name="Stas Dovgodko" id="74"/>
+        <subject>Поиск по тегу работает странно</subject>
+        <description>
+            http://stasdovgodko.com.ua/blog?t=%D0%90%D0%BD%D0%BE%D0%BD%D0%B8%D0%BC%D1%83%D1%81+%D0%A3%D0%BA%D1%80%D0%B0%D0%B8%D0%BD%D0%B0
+
+            В шапке ссылка на несуществующую статью в педии
+
+            http://i.imgur.com/SyopnLt.png
+        </description>
+        <start_date>2014-10-21</start_date>
+        <due_date></due_date>
+        <done_ratio>0</done_ratio>
+        <estimated_hours></estimated_hours>
+        <created_on>2014-10-21T21:26:23+04:00</created_on>
+        <updated_on>2014-10-21T21:26:23+04:00</updated_on>
+    </issue>
+    <issue>
+        <id>12556</id>
+        <project name="IT&amp;Operations (Сис. Адм.)" id="5"/>
+        <tracker name="Task" id="4"/>
+        <status name="New" id="1"/>
+        <priority name="Normal" id="4"/>
+        <author name="Sergey Korobanov" id="21"/>
+        <assigned_to name="Dmitriy Zaviyalov" id="159"/>
+        <subject>ssl на ldapadmin</subject>
+        <description>http://ldapmaster1-1.sfa3.smi2.net/phpldapadmin/index.php</description>
+        <start_date>2014-10-21</start_date>
+        <due_date></due_date>
+        <done_ratio>0</done_ratio>
+        <estimated_hours></estimated_hours>
+        <created_on>2014-10-21T19:53:21+04:00</created_on>
+        <updated_on>2014-10-21T19:53:42+04:00</updated_on>
+    </issue>
+    <issue>
+        <id>12553</id>
+        <project name="СМИ2.net" id="1"/>
+        <tracker name="Task" id="4"/>
+        <status name="New" id="1"/>
+        <priority name="High" id="6"/>
+        <author name="Anna Ivanova" id="41"/>
+        <assigned_to name="Andrey Sehchin" id="51"/>
+        <subject>добавление рент тв в агрегатор</subject>
+        <description>Завтра обязательно!!!!!!!!! http://smi2.net/admin/campaigns/13051, рсс там внутри</description>
+        <start_date>2014-10-21</start_date>
+        <due_date></due_date>
+        <done_ratio>0</done_ratio>
+        <estimated_hours></estimated_hours>
+        <created_on>2014-10-21T19:34:54+04:00</created_on>
+        <updated_on>2014-10-21T19:34:54+04:00</updated_on>
+    </issue>
+    <issue>
+        <id>12551</id>
+        <project name="СМИ2.net" id="1"/>
+        <tracker name="Task" id="4"/>
+        <status name="New" id="1"/>
+        <priority name="Normal" id="4"/>
+        <author name="Alsu Mukhametdinova" id="42"/>
+        <assigned_to name="Igor Strykhar" id="24"/>
+        <subject>ДКвартал в агрегатор</subject>
+        <description>http://smi2.net/admin/campaigns/10613
+
+            Просьба добавить в агрегатор, рсс прикрутила. Обменные коды установлены напрямую.
+
+            http://www.dk.ru/news/yandex-rss.xml
+        </description>
+        <start_date>2014-10-21</start_date>
+        <due_date></due_date>
+        <done_ratio>0</done_ratio>
+        <estimated_hours></estimated_hours>
+        <created_on>2014-10-21T18:41:38+04:00</created_on>
+        <updated_on>2014-10-21T18:41:38+04:00</updated_on>
+    </issue>
+    <issue>
+        <id>12548</id>
+        <project name="Olanola" id="9"/>
+        <tracker name="Task" id="4"/>
+        <status name="New" id="1"/>
+        <priority name="Urgent" id="7"/>
+        <author name="Oleg Konstantinov" id="6"/>
+        <assigned_to name="Stas Dovgodko" id="74"/>
+        <category name="Социальная часть" id="3"/>
+        <fixed_version name="Milestone - future" id="58"/>
+        <subject>Приглашения из социальных сетей</subject>
+        <description>корневая задача для направления "Приглашения из социальных сетей"</description>
+        <start_date>2014-10-21</start_date>
+        <due_date></due_date>
+        <done_ratio>0</done_ratio>
+        <estimated_hours></estimated_hours>
+        <created_on>2014-10-21T17:51:09+04:00</created_on>
+        <updated_on>2014-10-21T17:51:09+04:00</updated_on>
+    </issue>
+    <issue>
+        <id>12547</id>
+        <project name="Olanola" id="9"/>
+        <tracker name="Task" id="4"/>
+        <status name="New" id="1"/>
+        <priority name="Normal" id="4"/>
+        <author name="Oleg Konstantinov" id="6"/>
+        <assigned_to name="Andrey Gavrylyuk" id="137"/>
+        <category name="фейсбукизация" id="38"/>
+        <fixed_version name="release-1353" id="195"/>
+        <parent id="12457"/>
+        <subject>Ссылки открывать в другой вкладке</subject>
+        <description>в блоге, в постах с репостами ссылки открывать в новом окне</description>
+        <start_date>2014-10-21</start_date>
+        <due_date></due_date>
+        <done_ratio>0</done_ratio>
+        <estimated_hours></estimated_hours>
+        <created_on>2014-10-21T17:43:14+04:00</created_on>
+        <updated_on>2014-10-21T17:43:14+04:00</updated_on>
+    </issue>
+    <issue>
+        <id>12544</id>
+        <project name="Olanola" id="9"/>
+        <tracker name="Task" id="4"/>
+        <status name="New" id="1"/>
+        <priority name="Urgent" id="7"/>
+        <author name="Oleg Konstantinov" id="6"/>
+        <assigned_to name="Alexey Geno" id="121"/>
+        <category name="Социальная часть" id="3"/>
+        <fixed_version name="release-1351" id="186"/>
+        <parent id="11788"/>
+        <subject>на оланоле должны быть только английские сайты</subject>
+        <description>http://olanola.com/groups</description>
+        <start_date>2014-10-21</start_date>
+        <due_date></due_date>
+        <done_ratio>0</done_ratio>
+        <estimated_hours></estimated_hours>
+        <created_on>2014-10-21T17:04:52+04:00</created_on>
+        <updated_on>2014-10-21T17:10:27+04:00</updated_on>
+    </issue>
+    <issue>
+        <id>12543</id>
+        <project name="Olanola" id="9"/>
+        <tracker name="Task" id="4"/>
+        <status name="New" id="1"/>
+        <priority name="Normal" id="4"/>
+        <author name="Artem Stupakov" id="111"/>
+        <assigned_to name="Andrey Gavrylyuk" id="137"/>
+        <category name="фейсбукизация" id="38"/>
+        <parent id="12456"/>
+        <subject>Настройки прав для /blog</subject>
+        <description>Необходимо сделать настраиваемую видимость для страницы /blog.
+            Пока что только дев может видеть сам свою же страницу.
+        </description>
+        <start_date>2014-10-21</start_date>
+        <due_date></due_date>
+        <done_ratio>0</done_ratio>
+        <estimated_hours></estimated_hours>
+        <created_on>2014-10-21T17:01:10+04:00</created_on>
+        <updated_on>2014-10-21T17:01:10+04:00</updated_on>
+    </issue>
+    <issue>
+        <id>12542</id>
+        <project name="Olanola" id="9"/>
+        <tracker name="Task" id="4"/>
+        <status name="New" id="1"/>
+        <priority name="Normal" id="4"/>
+        <author name="Alena Soboleva" id="63"/>
+        <assigned_to name="Stas Dovgodko" id="74"/>
+        <subject>Сократить модерируемые статьи в админке до анонса</subject>
+        <description>Сейчас : http://mdr.mtml.ru/spam/bpost?moderated=1 -
+            http://grabilla.com/04a15-8fe90b5f-a1d3-4555-b334-f305b494206c.html#
+            т.е. статья занимает поллиста, долго скроллить, хотя с первых строк ясно, что спам.
+            Надо: сократить текст до анонса. При необходимости можно пройти по ссылке, чтобы уточнить контент
+        </description>
+        <start_date>2014-10-21</start_date>
+        <due_date></due_date>
+        <done_ratio>0</done_ratio>
+        <estimated_hours></estimated_hours>
+        <created_on>2014-10-21T16:59:51+04:00</created_on>
+        <updated_on>2014-10-21T16:59:51+04:00</updated_on>
+    </issue>
+    <issue>
+        <id>12541</id>
+        <project name="Olanola" id="9"/>
+        <tracker name="Task" id="4"/>
+        <status name="New" id="1"/>
+        <priority name="Normal" id="4"/>
+        <author name="Artem Stupakov" id="111"/>
+        <assigned_to name="Andrey Gavrylyuk" id="137"/>
+        <category name="фейсбукизация" id="38"/>
+        <parent id="11787"/>
+        <subject>Доделать работу лайков на странице /blog</subject>
+        <description>http://mirtesen.ru/people/104055306/blog
+            запостил запись, сделал лайк -1. обновляю страницу, показывает 1, надо показывать -1.
+            http://grabilla.com/04a15-ec09e196-c0cb-4e47-8322-6568a015a331.png
+        </description>
+        <start_date>2014-10-21</start_date>
+        <due_date></due_date>
+        <done_ratio>0</done_ratio>
+        <estimated_hours></estimated_hours>
+        <created_on>2014-10-21T16:56:08+04:00</created_on>
+        <updated_on>2014-10-21T16:56:08+04:00</updated_on>
+    </issue>
+    <issue>
+        <id>12540</id>
+        <project name="Olanola" id="9"/>
+        <tracker name="Task" id="4"/>
+        <status name="New" id="1"/>
+        <priority name="Urgent" id="7"/>
+        <author name="Oleg Konstantinov" id="6"/>
+        <assigned_to name="Andrew Shmatov" id="17"/>
+        <subject>Искоренить древние формы логинов</subject>
+        <description>[21.10.14, 16:43:39] Oleg Konstantinov: Если сюда зайти незалогиненым http://mirtesen.ru/groups/my
+            [21.10.14, 16:43:53] Oleg Konstantinov: то показывается левая форма логина
+            [21.10.14, 16:44:41] Oleg Konstantinov: ее конечно же надо искоренить
+        </description>
+        <start_date>2014-10-21</start_date>
+        <due_date></due_date>
+        <done_ratio>0</done_ratio>
+        <estimated_hours></estimated_hours>
+        <created_on>2014-10-21T16:55:27+04:00</created_on>
+        <updated_on>2014-10-21T16:55:27+04:00</updated_on>
+    </issue>
+    <issue>
+        <id>12538</id>
+        <project name="Olanola" id="9"/>
+        <tracker name="Task" id="4"/>
+        <status name="New" id="1"/>
+        <priority name="Normal" id="4"/>
+        <author name="Andrey Anufriev" id="124"/>
+        <assigned_to name="Stas Dovgodko" id="74"/>
+        <category name="Административная часть" id="2"/>
+        <subject>MDR: подмена домена через Smarty</subject>
+        <description>В MDR часто встречается структура подмены домена через Smarty вида:
+
+            ...url|replace:$Config-&gt;main_domain:$Config-&gt;mirtesen_domain
+
+            Например:
+            mirtesen/mdr/tpls/ChatComments.tpl:15
+
+            На сколько это актуально и корректно?
+        </description>
+        <start_date>2014-10-21</start_date>
+        <due_date></due_date>
+        <done_ratio>0</done_ratio>
+        <estimated_hours></estimated_hours>
+        <created_on>2014-10-21T16:17:40+04:00</created_on>
+        <updated_on>2014-10-21T16:17:40+04:00</updated_on>
+    </issue>
+    <issue>
+        <id>12535</id>
+        <project name="Olanola" id="9"/>
+        <tracker name="Task" id="4"/>
+        <status name="New" id="1"/>
+        <priority name="Normal" id="4"/>
+        <author name="Artem Stupakov" id="111"/>
+        <assigned_to name="Pavel Balandin" id="20"/>
+        <category name="Социальная часть" id="3"/>
+        <subject>Вернуть на место черные шрифты</subject>
+        <description>Вот такого черного цвета должны быть шрифты в новых скинах
+            http://grabilla.com/04a15-a6006345-037a-410d-bc40-f5714ee01db7.png
+            Например, на этом сайте http://hahatushki.mirtesen.ru/blog/43416613067/Demotivatoryi-skrasit-rabochiy-den
+            сейчас какой бы скин не ставить, а шрифты будут серые, пенсеонеров и людей с плохим зрением это
+            раздражает.
+        </description>
+        <start_date>2014-10-21</start_date>
+        <due_date></due_date>
+        <done_ratio>0</done_ratio>
+        <estimated_hours></estimated_hours>
+        <created_on>2014-10-21T14:46:56+04:00</created_on>
+        <updated_on>2014-10-21T14:46:56+04:00</updated_on>
+    </issue>
+    <issue>
+        <id>12532</id>
+        <project name="Olanola" id="9"/>
+        <tracker name="Task" id="4"/>
+        <status name="New" id="1"/>
+        <priority name="Normal" id="4"/>
+        <author name="Artem Stupakov" id="111"/>
+        <assigned_to name="Stas Dovgodko" id="74"/>
+        <category name="Социальная часть" id="3"/>
+        <subject>Стр 404 на /edit и /analytics</subject>
+        <description>Владелец сайта Юра Белоусов b@e-generator.ru
+            Сайт на СК с новыми скинами
+            страница /analytics показывает стр 404
+            http://grabilla.com/04a15-108cc03a-6e15-46a4-afee-b38603da891f.png
+            тоже самое и со страницей /edit
+
+
+        </description>
+        <start_date>2014-10-21</start_date>
+        <due_date></due_date>
+        <done_ratio>0</done_ratio>
+        <estimated_hours></estimated_hours>
+        <created_on>2014-10-21T14:02:15+04:00</created_on>
+        <updated_on>2014-10-21T14:02:15+04:00</updated_on>
+    </issue>
+    <issue>
+        <id>12531</id>
+        <project name="Olanola" id="9"/>
+        <tracker name="Bug" id="1"/>
+        <status name="New" id="1"/>
+        <priority name="Normal" id="4"/>
+        <author name="Oleg Konstantinov" id="6"/>
+        <assigned_to name="Andrey Gavrylyuk" id="137"/>
+        <category name="фейсбукизация" id="38"/>
+        <fixed_version name="release-1353" id="195"/>
+        <parent id="10863"/>
+        <subject>парсинг сссылок - ковычки в загловках</subject>
+        <description>http://www.bbc.co.uk/russian/international/2014/10/141020_ukraine_denies_bnd_m17_report
+
+            при парсинге заголовок:
+
+            Киев: "Боинг" MH17 был сбит не из украинского "Бука"
+
+            обрезался до ковычки
+        </description>
+        <start_date>2014-10-21</start_date>
+        <due_date></due_date>
+        <done_ratio>0</done_ratio>
+        <estimated_hours></estimated_hours>
+        <created_on>2014-10-21T13:48:06+04:00</created_on>
+        <updated_on>2014-10-21T13:48:06+04:00</updated_on>
+    </issue>
+    <issue>
+        <id>12530</id>
+        <project name="Olanola" id="9"/>
+        <tracker name="Task" id="4"/>
+        <status name="New" id="1"/>
+        <priority name="Normal" id="4"/>
+        <author name="Artem Stupakov" id="111"/>
+        <assigned_to name="Artem Malyuga" id="131"/>
+        <category name="Социальная часть" id="3"/>
+        <parent id="9492"/>
+        <subject>Поля в попапе, необходимые для заполнения, сделать обязательными</subject>
+        <description>Если в алерте, который попап, появляются поля, которые надо заполнить, то их надо сделать
+            обязательными.
+            Нажал на ссылку профиль пользователя и появился попап.
+            http://sterva.mirtesen.ru/blog/43048706883/temnota---drug-molodezhi!-pravda-li-eto
+            http://grabilla.com/04a15-00abd227-dd5c-4996-90bb-2e529abc63f4.png
+            все поля, которые предлагается заполнить, в данном случае это поле "Фамилия", должно быть обязательным.
+            Сейчас, если нажать ОК, то http://grabilla.com/04a15-f8cba701-bb50-4132-a0fb-430736371ab0.png ,
+            а должно не позволять так сделать, т.к. фамилия не заполнена.
+
+
+        </description>
+        <start_date>2014-10-21</start_date>
+        <due_date></due_date>
+        <done_ratio>0</done_ratio>
+        <estimated_hours></estimated_hours>
+        <created_on>2014-10-21T13:46:50+04:00</created_on>
+        <updated_on>2014-10-21T13:55:11+04:00</updated_on>
+    </issue>
+    <issue>
+        <id>12528</id>
+        <project name="СМИ2.net" id="1"/>
+        <tracker name="Task" id="4"/>
+        <status name="New" id="1"/>
+        <priority name="Normal" id="4"/>
+        <author name="Igor Strykhar" id="24"/>
+        <assigned_to name="Igor Strykhar" id="24"/>
+        <subject>adsites-banner-v3.html</subject>
+        <description>[20.10.14, 20:47:07] Stas Dovgodko: регулярно на МТ вижу баннер сми2 в таймауте (хз что это значит)
+            [20.10.14, 20:47:41] Stas Dovgodko: http://i.imgur.com/llxwRRP.png
+            [20.10.14, 20:47:50] Stas Dovgodko: там ифрейм сюда http://smi2.ru/data/iframes/adsites-banner-v3.html
+
+            Игорь, этот блок мы откуда отдаем?
+        </description>
+        <start_date>2014-10-21</start_date>
+        <due_date></due_date>
+        <done_ratio>0</done_ratio>
+        <estimated_hours></estimated_hours>
+        <created_on>2014-10-21T13:05:19+04:00</created_on>
+        <updated_on>2014-10-21T13:05:19+04:00</updated_on>
+    </issue>
+    <issue>
+        <id>12525</id>
+        <project name="Olanola" id="9"/>
+        <tracker name="Task" id="4"/>
+        <status name="New" id="1"/>
+        <priority name="Normal" id="4"/>
+        <author name="Artem Stupakov" id="111"/>
+        <assigned_to name="Stas Dovgodko" id="74"/>
+        <category name="Социальная часть" id="3"/>
+        <subject>починить разлогинивание с сайта smi2.mirtesen.ru</subject>
+        <description>14jan@e-generator.tw q123456
+            Если зайти на сайт smi2.mirtesen.ru и потом разлогиниться, то открывается страница 404.
+            http://grabilla.com/04a15-8a509d20-59c6-4305-bc07-ef00d7462bfe.png
+        </description>
+        <start_date>2014-10-21</start_date>
+        <due_date></due_date>
+        <done_ratio>0</done_ratio>
+        <estimated_hours></estimated_hours>
+        <created_on>2014-10-21T11:46:57+04:00</created_on>
+        <updated_on>2014-10-21T11:46:57+04:00</updated_on>
+    </issue>
+    <issue>
+        <id>12524</id>
+        <project name="Olanola" id="9"/>
+        <tracker name="Task" id="4"/>
+        <status name="Testing" id="8"/>
+        <priority name="Normal" id="4"/>
+        <author name="Oleg Konstantinov" id="6"/>
+        <assigned_to name="Alexey Geno" id="121"/>
+        <category name="Рекламная подсистема" id="7"/>
+        <fixed_version name="release-1352" id="187"/>
+        <parent id="11785"/>
+        <subject>Цена клика</subject>
+        <description>надо сделать
+            1. чтобы по умолчанию цена клика был 1 рубль
+            2. минимальная цена 30 копеек
+            3. сделать менее суровый ввод, чтобы можно было ввести 1 или 1.1 или .9
+        </description>
+        <start_date>2014-10-21</start_date>
+        <due_date></due_date>
+        <done_ratio>0</done_ratio>
+        <estimated_hours></estimated_hours>
+        <created_on>2014-10-21T11:45:37+04:00</created_on>
+        <updated_on>2014-10-21T17:12:15+04:00</updated_on>
+    </issue>
+    <issue>
+        <id>12523</id>
+        <project name="Olanola" id="9"/>
+        <tracker name="Task" id="4"/>
+        <status name="New" id="1"/>
+        <priority name="High" id="6"/>
+        <author name="Artem Stupakov" id="111"/>
+        <assigned_to name="Stas Dovgodko" id="74"/>
+        <category name="Социальная часть" id="3"/>
+        <subject>Вместо статей на polonsil.ru выводится стр 404</subject>
+        <description>Статьи http://polonsil.ru/_/zdorove?tmd=1 не показываются
+            http://polonsil.ru/blog/43287525549/Asanyi-yogi-pri-bolyah-v-oblasti-zhivota
+            http://grabilla.com/04a15-b099d283-2375-451e-aa88-521deea7a959.png
+            http://polonsil.ru/_/krasota
+            http://polonsil.ru/blog/43930358572/Kak-perezhit-holoda-v-bodrosti-i-stroynosti
+            http://grabilla.com/04a15-d0a55df4-94f3-4b42-8035-633b5be334f7.png
+
+
+        </description>
+        <start_date>2014-10-21</start_date>
+        <due_date></due_date>
+        <done_ratio>0</done_ratio>
+        <estimated_hours></estimated_hours>
+        <created_on>2014-10-21T11:32:39+04:00</created_on>
+        <updated_on>2014-10-21T11:32:39+04:00</updated_on>
+    </issue>
+    <issue>
+        <id>12522</id>
+        <project name="Olanola" id="9"/>
+        <tracker name="Task" id="4"/>
+        <status name="New" id="1"/>
+        <priority name="Normal" id="4"/>
+        <author name="Oleg Konstantinov" id="6"/>
+        <assigned_to name="Alexey Geno" id="121"/>
+        <category name="Рекламная подсистема" id="7"/>
+        <fixed_version name="release-1353" id="195"/>
+        <parent id="11785"/>
+        <subject>ввод денег на бизнес-сайты</subject>
+        <description>Надо сделать возможность подкинуть кредитов на данной странице
+            http://mdr.mtml.ru/adgroups/30817783079/edit
+        </description>
+        <start_date>2014-10-21</start_date>
+        <due_date></due_date>
+        <done_ratio>0</done_ratio>
+        <estimated_hours></estimated_hours>
+        <created_on>2014-10-21T11:24:05+04:00</created_on>
+        <updated_on>2014-10-21T11:24:05+04:00</updated_on>
+    </issue>
+    <issue>
+        <id>12521</id>
+        <project name="Olanola" id="9"/>
+        <tracker name="Task" id="4"/>
+        <status name="Testing" id="8"/>
+        <priority name="Normal" id="4"/>
+        <author name="Oleg Konstantinov" id="6"/>
+        <assigned_to name="Alexey Geno" id="121"/>
+        <category name="Рекламная подсистема" id="7"/>
+        <fixed_version name="release-1352" id="187"/>
+        <parent id="11785"/>
+        <subject>Доработки модерилки</subject>
+        <description>http://mdr.mtml.ru/adgroupsstat
+
+            надо
+            1. добавить колонку "баланс"
+            2. выделять цветом сайты, которые не в ротации
+            3. дать ссылку с каждого сайта на страницу управления рекламой http://mdr.mtml.ru/adgroups/30817783079/edit
+        </description>
+        <start_date>2014-10-21</start_date>
+        <due_date></due_date>
+        <done_ratio>0</done_ratio>
+        <estimated_hours></estimated_hours>
+        <created_on>2014-10-21T11:12:23+04:00</created_on>
+        <updated_on>2014-10-21T17:12:02+04:00</updated_on>
+    </issue>
+    <issue>
+        <id>12519</id>
+        <project name="СМИ2.net" id="1"/>
+        <tracker name="Task" id="4"/>
+        <status name="New" id="1"/>
+        <priority name="Normal" id="4"/>
+        <author name="Anna Ivanova" id="41"/>
+        <assigned_to name="Andrey Sehchin" id="51"/>
+        <subject>агрегатор М 24</subject>
+        <description>просьба добавить в агрегатор http://smi2.net/admin/campaigns/8405, рсс прикрутила, проверьте.
+            Обменные коды установлены напрямую, поэтому счетчик не ставили. Если чего-то еще надо - пишите.
+            Перекинь на Андрея, если надо:)
+
+            Ребят, им вес нормальный надо, они все-таки столько покупают, не специально, но подслеживтаь.
+
+            Сорри, за копипаст, не успеваю ничего.
+        </description>
+        <start_date>2014-10-21</start_date>
+        <due_date></due_date>
+        <done_ratio>0</done_ratio>
+        <estimated_hours></estimated_hours>
+        <created_on>2014-10-21T02:32:34+04:00</created_on>
+        <updated_on>2014-10-21T11:51:06+04:00</updated_on>
+    </issue>
+</issues>

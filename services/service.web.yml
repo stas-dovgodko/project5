@@ -1,0 +1,150 @@
+use: [logger, cache, twig, assetic]
+
+parameters:
+    web.front.base: "/"
+    web.front.display_errors: null
+    web.debug.panel: true
+    template.main.path: []
+    template.error.path: []
+    web.json.decorator.class: "project5\Web\ResponseDecorator\JSON"
+
+services:
+
+
+    web.front.request:
+        class: project5\Web\Request
+        factory: [project5\Web\Front, CreateRequest]
+        arguments: ["@web.session.storage"]
+
+    web.front:
+        class: project5\Web\Front
+        arguments: ["@web.front.request", "%web.front.base%"]
+        attach:
+            web.output.handler: attachOutputCallback
+        calls:
+            - [setCache, ["@cache.provider.php"]]
+            - [setLogger, ["@logger"]]
+            - [setDecorator, ["html", "@web.response.decorator.html="]]
+            - [setDecorator, ["json", "@web.response.decorator.json="]]
+            - [setDecorator, ["xml", "@web.response.decorator.xml="]]
+            - [setDisplayErrors, ["%web.front.display_errors%"]]
+
+
+    web.render.main.loader.twig:
+        scope: prototype
+        class: project5\Template\Loader\Filesystem
+        arguments:
+            - "%template.main.path%"
+            - ".twig"
+        calls:
+            - [addPath, ["%project5.dir%/tpl/main/"]]
+
+    web.render.error.loader.twig:
+        scope: prototype
+        class: project5\Template\Loader\Filesystem
+        arguments:
+            - "%template.error.path%"
+            - ".twig"
+        calls:
+            - [addPath, ["%project5.dir%/tpl/error/"]]
+
+    web.render.main.loader.xml:
+        scope: prototype
+        class: project5\Template\Loader\Filesystem
+        arguments:
+            - "%template.main.path%"
+            - ".xml"
+        calls:
+            - [addPath, ["%project5.dir%/tpl/main/"]]
+
+
+    web.render:
+        class: project5\Template\Render
+        arguments:
+            - "@template.render.twig="
+            - "@web.render.main.loader.twig="
+        calls:
+            - [setLogger, ["@logger"]]
+            - [setTemplateRender, ["error", "@template.render.twig=", "@web.render.error.loader.twig="]]
+
+    web.response.decorator.html:
+        scope: prototype
+        class: project5\Web\ResponseDecorator\HTML
+        arguments:
+            - "@web.render"
+
+    web.response.decorator.xml:
+        scope: prototype
+        class: project5\Web\ResponseDecorator\XML
+        arguments:
+            - "@template.render.twig="
+            - "@web.render.main.loader.xml="
+
+    web.response.decorator.json:
+        scope: prototype
+        class: "%web.json.decorator.class%"
+
+    web.session.storage:
+        class: project5\Session\Storage\Native
+
+    web.session:
+        class: project5\Session
+        arguments: [web, "@web.session.storage"]
+
+    web.notifications:
+        class: project5\Web\Notifications
+        arguments: ["@web.session", "%app.name%"]
+
+
+
+asset:
+    jquery:
+        file:
+          - "%project5.dir%/web/public/project5/js/jquery-1.11.1.min.js"
+
+    fontawesome:
+        file:
+          - "%project5.dir%/web/public/project5/font-awesome-4.5.0/css/font-awesome.css"
+
+    bootstrap3:
+        file:
+          - "%project5.dir%/web/public/project5/bootstrap/css/bootstrap.css"
+          - "%project5.dir%/web/public/project5/bootstrap/css/bootstrap-theme.css"
+          - "%project5.dir%/web/public/project5/bootstrap/js/bootstrap.js"
+        copy:
+          - "%project5.dir%/web/public/project5/bootstrap/fonts/*"
+
+    sbadmin:
+        require: ['jquery', 'fontawesome', 'bootstrap3']
+        file:
+          - "%project5.dir%/web/public/project5/sbadmin/css/sb-admin.css"
+          - "%project5.dir%/web/public/project5/sbadmin/js/plugins/metisMenu/jquery.metisMenu.js"
+          - "%project5.dir%/web/public/project5/sbadmin/js/plugins/morris/raphael-2.1.0.min.js"
+          - "%project5.dir%/web/public/project5/sbadmin/js/plugins/morris/morris.js"
+          - "%project5.dir%/web/public/project5/sbadmin/js/sb-admin.js"
+
+
+
+    bootstrap_select2:
+        require: ['jquery', 'bootstrap3']
+        file:
+          - "%project5.dir%/web/public/project5/select2/select2.css"
+          - "%project5.dir%/web/public/project5/select2/select2-bootstrap.css"
+          - "%project5.dir%/web/public/project5/select2/select2.js"
+
+    moment:
+        file:
+          - "%project5.dir%/web/public/project5/moment/moment.js"
+
+    bootstrap_datetimepicker:
+        require: ['jquery', 'bootstrap3', 'moment']
+        file:
+          - "%project5.dir%/web/public/project5/datetimepicker/css/bootstrap-datetimepicker.css"
+          - "%project5.dir%/web/public/project5/datetimepicker/js/bootstrap-datetimepicker.min.js"
+
+    bootstrap_jasny:
+        require: ['jquery', 'bootstrap3']
+        file:
+          - "%project5.dir%/web/public/project5/jasny-bootstrap/js/jasny-bootstrap.min.js"
+          - "%project5.dir%/web/public/project5/jasny-bootstrap/css/jasny-bootstrap.css"
+

@@ -1,0 +1,188 @@
+
+{% if form.getErrors() %}
+    {% block form_errors %}
+        <p class="bg-danger">
+            {% for errmessage in form.getErrors() %}
+                {{ errmessage.0|_(errmessage.1) }}<br />
+            {% endfor %}
+        </p>
+    {% endblock %}
+{% endif %}
+
+<form action="{{form.actionUrl}}" autocomplete="new-password" method="{{form.getMethod}}" {% block form_attrs %}role="form"{% endblock %} {% if page.formHasUpload(form) %}enctype="multipart/form-data"{% endif %}>
+    {% block form_hidden %}
+        {% for name, value in form.getHidden %}
+            <input type="hidden" name="{{form.getFieldName(name)}}" value="{{value}}" />
+        {% endfor %}
+    {% endblock %}
+
+    <fieldset>
+        {% for field in form %}
+            {% set field_own_name = field.getName %}
+            {% set field_name = form.getFieldName(field_own_name) %}
+
+            {% set field_id = field_name|id %}
+
+            {% set field_errors = form.getErrors(field_own_name) %}
+
+            {% set field_label %}
+                <label for="{{ field_id }}">{{ field.getTitle }}</label>
+            {% endset %}
+
+            {% set field_errors_html %}
+                {% if field_errors|length > 0 %}
+                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                    <span class="help-block">
+                        {% for error in field_errors  %}
+                            {{ error.0|_(error.1) }}
+                        {% endfor %}
+                        <span>
+                {% endif %}
+            {% endset %}
+
+            {% if field is a('textarea') %}
+                {% set field_value = field.formatDataValue(form.getValue(field_own_name)) %}
+                {% set field_html %}
+                <textarea name="{{ field_name }}" class="form-control" id="{{ field_id }}" rows="{{field.rows|default(5)}}" {% if field.isReadonly %}readonly="readonly"{% endif %}>{{ field_value }}</textarea>
+                {% endset %}
+            {% elseif field is a('upload') %}
+                {% set field_value = field.formatDataValue(form.getValue(field_own_name)) %}
+                {% set field_html %}
+                    <input type="hidden" name="{{ field_name }}" class="form-control" id="{{ field_id }}" readonly value="{{ field_value }}" />
+                    {% if not field.isReadonly %}
+
+
+                <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                    <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename">{{ field_value }}</span></div>
+                    <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span>
+                        <input type="file" name="{{ field_name }}"  id="{{ field_id }}" placeholder="{{ field.getTitle }}"  />
+                    </span>
+                    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                </div>
+
+
+
+                    {% endif %}
+                {% endset %}
+            {% elseif field is a('password') %}
+                {% set field_value = field.formatDataValue(form.getValue(field_own_name)) %}
+                {% set field_html %}
+                    {% if field.isReadonly %}
+                    ******
+                    {% else %} {# should be handled by decorator! #}
+
+                        <input type="password" name="{{ field_name }}" class="form-control" id="{{ field_id }}" value="{{ field_value }}" placeholder="{{ field.getTitle }}"  />
+                    {% endif %}
+                {% endset %}
+            {% elseif field is a('checkbox') %}
+                {% set field_value = field.formatDataValue(form.getValue(field_own_name)) %}
+                {% set field_label %}{% endset %}
+                {% set field_html %}
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="{{ field_name }}" id="{{ field_id }}" value="1" {% if field_value == 1 %}checked="checked"{% endif %} {% if field.isReadonly %}readonly="readonly"{% endif %}/> {{ field.getTitle }}
+                        </label>
+                    </div>
+                {% endset %}
+            {% elseif field is a('relation') %}
+                {% set field_value = field.formatDataValue(form.getValue(field_own_name)) %}
+                {% set field_html %}
+
+                    <div class="select">
+                        <input type="hidden" name="{{ field_name }}" id="{{ field_id }}" value="{{ field_value }}" />
+                    </div>
+                    <script>
+                        $(document).ready(function() { $("#{{ field_id }}").select2({
+                            placeholder: "{{ field.getTitle }}",
+                            //minimumInputLength: 3,
+                            ajax: {
+                                url: "{{ page.urlRel(field.getName, request) }}",
+                                dataType: 'json',
+                                quietMillis: 100,
+                                data: function (term, page) { // page is the one-based page number tracked by Select2
+                                    return {
+                                        q: term, //search term
+                                        page_limit: 10, // page size
+                                        page: page // page number
+                                    };
+                                },
+                                results: function (data, page)
+                                {
+                                    var more = data.more;
+
+                                    // notice we return the value of more so Select2 knows if more results can be loaded
+                                    return {results: data.results, more: data.results.length ? more : false};
+                                }
+                            },
+                            {% if field_value %}
+                            initSelection: function(element, callback) {
+                                callback({id:{{ field_value|json_encode|raw }}, text:{{ field.getValueTitle(field_value)|string|json_encode|raw }}});
+                            },
+                            {% endif %}
+                            {% block field_crudselect_options %}
+                            {% if field.canBeEmpty %}
+                            placeholder: "Empty",
+                            allowClear: true,
+                            {% endif %}
+                            {% endblock %}
+                            width: '100%'
+                        }); });
+                    </script>
+
+                {% endset %}
+            {% elseif field is a('select') %}
+                {% set field_value = field.formatDataValue(form.getValue(field_own_name)) %}
+                {% set field_html %}
+                    <select name="{{ field_name }}" class="form-control" id="{{ field_id }}">
+                        {% if field.canBeEmpty %}<option></option>{% endif %}
+                        {% for key,value in field.options %}
+                            <option value="{{ key }}" {% if field_value == key %}selected{% endif %}>{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                {% endset %}
+            {% elseif field is a('date') %}
+                {% set field_html %}
+
+                {% block date_field %}
+                    {% import '_embed/_form' as forms %}
+
+                    {{ forms.field_date(form, field) }}
+                {% endblock %}
+
+
+                {% endset %}
+            {% else %}
+                {% set field_value = field.formatDataValue(form.getValue(field_own_name)) %}
+                {% set field_html %}
+
+                    {% block input_field %}
+                    {% import '_embed/_form' as forms %}
+
+                    {{ forms.field_input(form, field) }}
+                    {% endblock %}
+
+
+                {% endset %}
+            {% endif %}
+
+
+            {% block form_field %}
+                <div class="form-group{% if field_errors|length > 0 %} has-error has-feedback{% endif %}" class="col-lg-6">
+                    {{ field_label }}
+                    {{ field_html }}
+                    {{ field_errors_html }}
+                </div>
+            {% endblock %}
+
+        {% endfor %}
+    </fieldset>
+
+
+    {% block form_submit %}
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    {% endblock %}
+</form>

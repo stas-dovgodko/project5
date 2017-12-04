@@ -1,0 +1,75 @@
+{% extends "crud" %}
+
+
+{% block content %}
+<div class="panel-body">
+
+
+    {% embed "_embed/breadcrumbs" with {'page': page, 'subtitle': 'Add'|_}%}
+    {% endembed %}
+
+
+    {% block navigation %}
+        {% embed "_embed/navigation" with {'page': page} %}
+            {% block toolbar_buttons %}
+                <div class="btn-group">
+                    {% if page.hasList %}
+                        <a href="{{ page.urlList }}" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="fa fa-arrow-left" aria-hidden="true"></i></span>
+                            {{ 'Back to list'|_ }}
+                        </a>
+                    {% endif %}
+
+
+                </div>
+            {% endblock %}
+
+
+        {% endembed %}
+    {% endblock %}
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            {% embed "_embed/form" with {'form': form} %}
+
+            {% block form_field %}
+                {% if field.isSurrogate %}
+
+                {% else %}
+                    {{ parent() }}
+                {% endif %}
+            {% endblock %}
+
+            {% block form_submit %}
+        </div>
+        <div class="panel-footer">
+            <div style="text-align:center">
+                <div class="btn-group btn-group-justified">
+                    <div>
+                        <button type="submit" class="btn btn-labeled btn-primary">
+                            <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>
+                            {{ 'Save'|_ }}</button>
+
+                        <button type="submit" name="save_and_list" class="btn btn-labeled btn-info">
+                            <span class="btn-label"><i class="glyphicon glyphicon glyphicon-list-alt"></i></span>
+                            {{ 'Save and back to list'|_ }}
+                        </button>
+
+
+                        {% if page.hasList %}
+                            <a href="{{ page.urlList }}" class="btn btn-default">Back to list</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+
+
+        {% endembed %}
+    </div>
+
+
+</div>
+{% endblock %}
+

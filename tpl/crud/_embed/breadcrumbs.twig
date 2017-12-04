@@ -1,0 +1,29 @@
+{% macro breadcrumbs(page, istop = true) %}
+    {% set parent = page.getRouter %}
+
+    {% if parent %}{{ _self.breadcrumbs(parent, false) }}{% endif %}
+
+
+    <li {% if istop %}class="active"{% endif %}>
+        {% if parent %}
+            <a href="{{ parent.uri(page, response.getRequest.getParams, false) }}">
+        {% elseif page is a('Group') %}
+            <a href="{{ page.baseUrl }}">
+        {% endif %}
+
+        {% if page is a('Page') %}{{ page.getTitle }}{% elseif page is a('Front') %}{{ 'Main'|_ }}{% else %}{{ page|_ }}{% endif %}
+        {% if parent or page is a('Group') %}</a>{% endif %}
+    </li>
+
+{% endmacro %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        {% if subtitle %}
+            {{ _self.breadcrumbs(page, false) }}
+            <li class="active">{{ subtitle }}</li>
+        {% else %}
+            {{ _self.breadcrumbs(page, true) }}
+        {% endif %}
+    </ol>
+{% endblock %}
