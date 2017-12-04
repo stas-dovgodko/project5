@@ -1082,22 +1082,6 @@
         {
             $provider = $this->getProvider();
 
-            /*if ($auth_plugin = Plugin::Configured('auth')) {
-                $caller = isset($arguments['auth_caller']) ? $arguments['auth_caller'] : $request->getAttribute('auth_caller');
-                if ($caller instanceof ICaller) {
-
-                    $resource_name = $this->getName($this);
-
-                    $services = [self::SERVICE_ADD, self::SERVICE_DELETE, self::SERVICE_EDIT, self::SERVICE_LIST];
-
-                    foreach($services as $service_name) {
-                        if (!$auth_plugin->checkIfCan($caller, $service_name, $resource_name)) {
-                            $this->services[$service_name] = false;
-                        }
-                    }
-                }
-            }*/
-
             if ($provider instanceof ICanBeFiltered) {
                 if ($request->persistParam('filter', 0, $this->ns)) {
 
