@@ -387,7 +387,7 @@ class YamlFileLoader extends FileLoader implements LoggerAwareInterface
                             try {
                                 $injected_service = $this->container->get($injected_id);
                             } catch (ServiceCircularReferenceException $e) {
-                                $injected_service = $this->container->createService($this->container->getDefinition($injected_id), $injected_id);
+                                $injected_service = $this->container->createService($this->container->getDefinition($injected_id), new \SplObjectStorage(), $injected_id);
                             }
 
 

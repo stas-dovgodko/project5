@@ -46,7 +46,8 @@
         "beatswitch/lock": "0.1.0",
         "maximebf/debugbar": "1.10.1",
         "stasdovgodko/uri": "dev-master",
-        "stasdovgodko/propel2-sync": "dev-master"
+        "stasdovgodko/propel2-sync": "dev-master",
+        "vlucas/phpdotenv": "~2.4.0"
     },
 
     "require-dev": {
