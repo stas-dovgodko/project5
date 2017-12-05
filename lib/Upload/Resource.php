@@ -1,7 +1,7 @@
 <?php
 namespace project5\Upload;
 
-use project5\Uri;
+use StasDovgodko\Uri;
 
 class Resource
 {

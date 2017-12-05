@@ -2,8 +2,8 @@
 namespace project5\Upload;
 
 use project5\Stream\IStreamable;
-use project5\File;
-use project5\Uri;
+use StasDovgodko\Uri\File;
+use StasDovgodko\Uri;
 
 interface IStorage
 {

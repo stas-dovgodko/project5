@@ -6,7 +6,7 @@ use project5\Web\Request;
 use project5\Session;
 use project5\Session\Storage\ArrayMap;
 use project5\Session\Storage\Native;
-use project5\Web\Url;
+use StasDovgodko\Uri\Url;
 
 
 class RequestTest extends \PHPUnit_Framework_TestCase

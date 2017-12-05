@@ -5,7 +5,6 @@ use Exception;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use project5\Web\Filter\Chain;
-
 /**
  * Abstract filter support superclass
  *

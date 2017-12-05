@@ -4,13 +4,13 @@ namespace project5\Upload;
 use project5\LoggerAwareTrait;
 use project5\Stream\ITransformer;
 use project5\Web\Request; // ?
-use project5\Uri;
+use StasDovgodko\Uri;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use Sirius\Upload\Container\ContainerInterface;
 
 use project5\Stream\String;
-use project5\File;
+use StasDovgodko\Uri\File;
 
 class Handler implements LoggerAwareInterface
 {

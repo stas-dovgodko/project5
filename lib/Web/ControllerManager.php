@@ -4,16 +4,9 @@ namespace project5\Web;
 use project5\Exception\Unsupported;
 use project5\Web\Exception\NotAllowedException;
 use project5\Web\Exception\RouteNotFoundException;
-use project5\Web\ResponseDecorator\HTML;
-use project5\Web\ResponseDecorator\JSON;
-use project5\Web\ResponseDecorator\XML;
-use ReflectionParameter;
-use Sphinx\SphinxClient;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 use project5\Web\Exception\PropertyNotFoundException;
-use project5\Web\Request as ControllerRequest; //?
-use project5\Web\Route\Controller;
 
 /**
  * Application

@@ -8,7 +8,7 @@ use project5\Web\Request;
 use project5\Web\Response;
 use project5\Web\Route;
 use project5\Web\Router;
-use project5\Web\Url;
+use StasDovgodko\Uri\Url;
 
 class LeafRouteMock extends Route
 {

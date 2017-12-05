@@ -7,6 +7,7 @@ use project5\Stream\File;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
+use StasDovgodko\Uri\Url;
 
 class Request implements ServerRequestInterface
 {

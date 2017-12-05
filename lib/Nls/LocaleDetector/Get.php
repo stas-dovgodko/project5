@@ -20,7 +20,7 @@ class Get implements ILocaleDetector
 
     /**
      * @param $locale
-     * @return \project5\Web\Url
+     * @return \StasDovgodko\Uri\Url
      */
     public function getUrl($locale)
     {

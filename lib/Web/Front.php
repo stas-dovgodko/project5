@@ -10,20 +10,15 @@ namespace project5\Web;
 
 use project5\DI\IContainer;
 use project5\DI\Container;
-use Symfony\Component\DependencyInjection\Reference;
 use project5\Session\Storage\Native;
-use project5\Web\Request\UploadedFile;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use project5\Web\ResponseDecorator\HTML;
 
 use project5\Session;
 use project5\Stream\String;
 
 use project5\Application;
-
-use Symfony\Component\ExpressionLanguage\Expression;
-use Twig_Environment;
+use StasDovgodko\Uri\Url;
 
 
 class Front extends Group implements IContainer

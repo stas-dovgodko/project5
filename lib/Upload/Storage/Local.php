@@ -5,8 +5,8 @@ use project5\LoggerAwareTrait;
 use project5\Upload\IStorage;
 use project5\Stream\IStreamable;
 use project5\Stream\File as FileStream;
-use project5\File;
-use project5\Uri;
+use StasDovgodko\Uri\File;
+use StasDovgodko\Uri;
 use Psr\Log\LoggerAwareInterface;
 
 class Local implements IStorage, LoggerAwareInterface

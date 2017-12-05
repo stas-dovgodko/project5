@@ -3,10 +3,7 @@
 
 
     use project5\Web\Exception\NotFoundException;
-    use project5\Web\ResponseDecorator\HTML;
-    use project5\Web\ResponseDecorator\JSON;
-
-    use Symfony\Component\DependencyInjection\ContainerBuilder;
+    use StasDovgodko\Uri\Url;
 
     /**
      * Application

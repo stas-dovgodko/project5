@@ -3,7 +3,7 @@
 namespace project5\Form\Validator;
 
 use project5\Form\IValidator;
-use project5\Web\Url;
+use StasDovgodko\Uri\Url;
 use InvalidArgumentException;
 
 class Site implements IValidator

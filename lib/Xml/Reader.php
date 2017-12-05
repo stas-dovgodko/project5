@@ -1,7 +1,7 @@
 <?php
     namespace project5\Xml;
 
-    use project5\Uri;
+    use StasDovgodko\Uri;
     use XMLReader;
 
     use project5\IInProgress;

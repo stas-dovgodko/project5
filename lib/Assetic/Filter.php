@@ -10,9 +10,8 @@ use Assetic\Filter\BaseCssFilter;
 use Assetic\Asset\AssetInterface;
 
 use Doctrine\Common\Cache\Cache;
-use project5\File;
-use project5\Uri;
-use project5\Web\Url;
+use StasDovgodko\Uri\File;
+use StasDovgodko\Uri\Url;
 
 class Filter extends BaseCssFilter
 {

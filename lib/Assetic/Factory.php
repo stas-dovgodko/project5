@@ -12,7 +12,7 @@ use Assetic\Asset\AssetInterface;
 use Assetic\Asset\AssetReference;
 use Assetic\Factory\AssetFactory;
 use Assetic\Factory\Worker\WorkerInterface;
-use project5\File;
+use StasDovgodko\Uri\File;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 

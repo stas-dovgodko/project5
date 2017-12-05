@@ -7,7 +7,7 @@
     use project5\Form\IValidator;
     use Traversable;
 
-    use project5\Web\Url;
+    use StasDovgodko\Uri\Url;
     use project5\Web\Request;
     use project5\Web\Response;
 

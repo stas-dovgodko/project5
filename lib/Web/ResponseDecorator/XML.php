@@ -2,7 +2,7 @@
 namespace project5\Web\ResponseDecorator;
 
 
-use project5\File;
+use StasDovgodko\Uri\File;
 use project5\Stream\Proxy;
 use project5\Stream\String;
 use project5\Template\ILoader;

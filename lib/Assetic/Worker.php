@@ -14,7 +14,6 @@ use Assetic\Factory\AssetFactory;
 use Assetic\AssetWriter;
 use Assetic\Util\VarUtils;
 use Doctrine\Common\Cache\Cache;
-use project5\File;
 
 class Worker implements WorkerInterface
 {

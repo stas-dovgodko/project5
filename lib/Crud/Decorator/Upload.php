@@ -8,7 +8,7 @@ use project5\Provider\IField;
 use project5\Upload\Handler;
 use project5\Form\Upload as FieldUpload;
 use project5\Upload\IStorage;
-use project5\Uri;
+use StasDovgodko\Uri;
 
 class Upload extends Decorator {
 

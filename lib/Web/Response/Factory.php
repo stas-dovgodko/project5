@@ -2,7 +2,7 @@
 namespace project5\Web\Response;
 
 use project5\Web\Response;
-use project5\Web\Url;
+use StasDovgodko\Uri\Url;
 
 class Factory
 {
