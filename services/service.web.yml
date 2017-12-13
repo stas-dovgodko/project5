@@ -134,7 +134,7 @@ asset:
 
     moment:
         file:
-          - "%project5.dir%/web/public/project5/moment/moment.js"
+          - "%project5.dir%/web/public/project5/moment/moment-with-locales.js"
 
     bootstrap_datetimepicker:
         require: ['jquery', 'bootstrap3', 'moment']

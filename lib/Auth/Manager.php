@@ -242,11 +242,9 @@ class Manager implements IContainer, LoggerAwareInterface, IExtension
         $roles = $caller->getAreaRoles($area);
         $this->log('area '.$resource.' roles: '.implode(', ', $roles));
 
-
+        $caller->loadPermissions($this, $area);
 
         $lock = $this->manager->caller(new SimpleCaller(get_class($caller), $caller->getAuthToken(), $roles));
-
-
 
         $check = $lock->can($action, get_class($area), $area->getUid());
 
