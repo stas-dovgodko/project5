@@ -239,7 +239,7 @@ class Manager implements IContainer, LoggerAwareInterface, IExtension
         }
 
         $resource = $area->getUid();
-        $roles = $caller->getAreaRoles($area);
+        $roles = (array)$caller->getAreaRoles($area);
         $this->log('area '.$resource.' roles: '.implode(', ', $roles));
 
         $caller->loadPermissions($this, $area);
