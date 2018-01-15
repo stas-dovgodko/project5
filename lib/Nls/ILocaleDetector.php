@@ -6,7 +6,7 @@ interface ILocaleDetector
     /**
      * @return string[]|null
      */
-    function determine();
+    public function determine();
 
 
 }

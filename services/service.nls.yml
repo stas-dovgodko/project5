@@ -7,11 +7,13 @@ parameters:
     nls.locale.detectors:
         - "@nls.locale.detector.get"
 
+    nls.locale.detector.cookie.name: lang
+
     nls.locale.fallback-detectors:
         - "@nls.locale.detector.browser"
         - "@nls.locale.detector.config"
 
-    nls.gettext.transations.dir: ""
+    nls.gettext.transations.dir: "%app.dir%/i18n/"
     nls.gettext.locales:
         ru: ru_RU.UTF-8
         en: en_GB.UTF-8
@@ -46,6 +48,10 @@ services:
     nls.locale.detector.config:
         class: project5\Nls\LocaleDetector\Config
         arguments: ["%nls.locale.default%"]
+
+    nls.locale.detector.cookie:
+        class: project5\Nls\LocaleDetector\Cookie
+        arguments: ["@web.front.request", "%nls.locale.detector.cookie.name%"]
 
     nls.locale.manager:
         class: project5\Nls\LocaleManager

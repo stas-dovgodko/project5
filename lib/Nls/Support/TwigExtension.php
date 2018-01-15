@@ -27,9 +27,10 @@ class TwigExtension implements IExtension
 
     public function extendTwig(Twig_Environment $twig, array $options = [])
     {
-        $locale = $this->manager->getLocale();
+        $twig->addFilter('_', new \Twig_SimpleFilter('_', function () {
 
-        $twig->addFilter('_', new \Twig_SimpleFilter('_', function () use ($locale) {
+            $locale = $this->manager->getLocale();
+
             $args = func_get_args();
 
             $key = array_shift($args);
@@ -49,7 +50,8 @@ class TwigExtension implements IExtension
 
 
 
-        $twig->addFilter('money', new \Twig_SimpleFilter('money', function () use ($locale) {
+        $twig->addFilter('money', new \Twig_SimpleFilter('money', function () {
+            $locale = $this->manager->getLocale();
             $args = func_get_args();
 
             $money = array_shift($args);
@@ -66,9 +68,6 @@ class TwigExtension implements IExtension
             else {
                 throw new \DomainException("Missed required currency param");
             }
-
-
-
         }));
 
         $twig->addFilter(new \Twig_SimpleFilter('trans', 'gettext')); // ?
