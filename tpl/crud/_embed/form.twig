@@ -29,17 +29,6 @@
                 <label for="{{ field_id }}">{{ field.getTitle }}</label>
             {% endset %}
 
-            {% set field_errors_html %}
-                {% if field_errors|length > 0 %}
-                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-                    <span class="help-block">
-                        {% for error in field_errors  %}
-                            {{ error.0|_(error.1) }}
-                        {% endfor %}
-                        <span>
-                {% endif %}
-            {% endset %}
-
             {% if field is a('textarea') %}
                 {% set field_value = field.formatDataValue(form.getValue(field_own_name)) %}
                 {% set field_html %}
@@ -170,7 +159,19 @@
                 <div class="form-group{% if field_errors|length > 0 %} has-error has-feedback{% endif %}" class="col-lg-6">
                     {{ field_label }}
                     {{ field_html }}
-                    {{ field_errors_html }}
+                    {% if field_errors|length > 0 %}
+                        <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                        <span class="help-block">
+                            {% for error in field_errors  %}
+                                {{ error.0|_(error.1) }}
+                            {% endfor %}
+                            <span>
+                    {% endif %}
+
+                    {% if field.description %}
+                        <span class="help-block">{{ field.description }}</span>
+                    {% endif %}
+
                 </div>
             {% endblock %}
 

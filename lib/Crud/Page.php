@@ -12,6 +12,7 @@
     use project5\Provider\Compare\Range;
     use project5\Provider\Field\Boolean;
     use project5\Provider\Field\Relation;
+    use project5\Provider\ICanRank;
     use project5\Template;
     use project5\Upload\Handler;
     use project5\Web\Notifications;
@@ -73,7 +74,7 @@
         /**
          * @var Route
          */
-        private $routeList, $routeAdd, $routeEdit, $routeView, $routeDelete, $routeRel;
+        private $routeList, $routeAdd, $routeEdit, $routeView, $routeDelete, $routeRel, $routeRank;
 
         protected $routeMdelete, $routeMview, $routeRellist;
 
@@ -86,6 +87,7 @@
         const SERVICE_SEARCH = 'search';
         const SERVICE_FILTER = 'filter';
         const SERVICE_SORTING = 'sorting';
+        const SERVICE_RANK = 'rank';
         const SERVICE_REL = 'rel';
         const SERVICE_EXTLIST = 'extlist';
 
@@ -210,6 +212,10 @@
                 if ($this->hasRel()) {
                     $this->routeRel = $this->addRoute('rel/:key', $json('rel'));
                     $this->routeRellist = $this->addRoute('rel/', $json('rellist'));
+                }
+
+                if ($this->hasRank()) {
+                    $this->routeRank = $this->addRoute('rank/:id/:action', $manager('rank'));
                 }
 
             });
@@ -797,6 +803,28 @@
             }
         }
 
+        public function handleRank(Request $request, Response $response, $id, $action)
+        {
+            if ($this->hasRank()) {
+                try {
+                    $entity = $this->provider->findByUid($this->decodeUid($id));
+
+                    switch ($action) {
+                        case 'up':
+                            $this->provider->moveUp($entity);
+                            break;
+                        case 'down':
+                            $this->provider->moveDown($entity);
+                            break;
+                    }
+
+                    return Response\Factory::Redirect($response, $this->urlList());
+                } catch (\Exception $e) {
+                    $this->notifications->addError($e->getMessage());
+                }
+            }
+        }
+
         public function handleDelete(Request $request, Response $response, $id)
         {
             if (($this->provider instanceof ICanDelete) && $this->provider->canDelete()) {
@@ -923,9 +951,6 @@
                     } else {
                         return ControllerManager::RETURN_RELOAD;
                     }
-                } else {
-                    //print_r($form->getErrors($form->getIterator()));
-                    //die('??');
                 }
 
                 return [
@@ -1200,5 +1225,17 @@
         }
 
 
+        /**
+         * Check if has rank functionality
+         *
+         * @return bool
+         */
+        public function hasRank()
+        {
+            if ($this->isEnabled(SELF::SERVICE_RANK) && $this->provider instanceof ICanRank) {
+                return $this->provider->canRank();
+            }
 
+            return false;
+        }
     }
