@@ -18,6 +18,7 @@ use project5\Provider\ICanBeFiltered;
 use project5\Provider\ICanBePaged;
 use project5\Provider\ICanBeSorted;
 use project5\Provider\ICanDelete;
+use project5\Provider\ICanRank;
 use project5\Provider\ICanSave;
 use project5\Provider\ICanSearch;
 use project5\Provider\IComparer;
@@ -37,7 +38,7 @@ use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Propel;
 
-class Provider implements IProvider, ICanBeCounted, ICanBePaged, ICanBeFiltered, ICanSave, ICanDelete, ICanBeSorted, ICanSearch
+class Provider implements IProvider, ICanBeCounted, ICanBePaged, ICanBeFiltered, ICanSave, ICanDelete, ICanBeSorted, ICanSearch, ICanRank
 {
     use PagerMethods;
 
@@ -74,6 +75,9 @@ class Provider implements IProvider, ICanBeCounted, ICanBePaged, ICanBeFiltered,
     protected $readOnly;
 
     protected $sorting = [];
+
+    protected $rankSortAsc = null;
+    protected $rankSortDesc = null;
 
     protected $search;
 
@@ -232,10 +236,14 @@ class Provider implements IProvider, ICanBeCounted, ICanBePaged, ICanBeFiltered,
                 $this->filteredModel->addAnd($column, $value, $comparison);
             }
 
-            foreach ($this->sorting as list($column_name, $order)) {
-                $column = $table_map->getColumn($column_name);
+            if ($this->canRank()) {
+                $this->filteredModel->orderByRank($this->rankSortDesc?'DESC':'ASC');
+            } else {
+                foreach ($this->sorting as list($column_name, $order)) {
+                    $column = $table_map->getColumn($column_name);
 
-                $this->filteredModel->orderBy($column->getName(), $order);
+                    $this->filteredModel->orderBy($column->getName(), $order);
+                }
             }
 
             if ($this->search !== null) {
@@ -477,6 +485,8 @@ class Provider implements IProvider, ICanBeCounted, ICanBePaged, ICanBeFiltered,
     {
         $this->sorting = [];
         $this->filteredModel = null;
+        $this->rankSortDesc = null;
+        $this->rankSortAsc = null;
 
         return $this;
     }
@@ -499,5 +509,130 @@ class Provider implements IProvider, ICanBeCounted, ICanBePaged, ICanBeFiltered,
         $this->filteredModel = null;
 
         return $this;
+    }
+
+    /**
+     * @param IEntity $entity
+     * @param $method
+     * @return \Closure
+     * @throws UnsupportedException
+     */
+    protected function getActiveRecordMethod(IEntity $entity, $method)
+    {
+        if ($entity instanceof Entity) {
+            $active_record = $entity->getRecord();
+
+            $reflection = new \ReflectionObject($active_record);
+
+            if ($reflection->hasMethod($method)) {
+
+
+                $method = $reflection->getMethod($method);
+
+                return $method->getClosure($active_record);
+            } else {
+                throw new UnsupportedException(sprintf('Propel entities no method "%s" found', $method));
+            }
+        } else {
+            throw new UnsupportedException('Propel entities allowed only');
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function canRank()
+    {
+        // has sortable beh
+        return method_exists($this->_model, 'sortableShiftRank');
+    }
+
+    /**
+     * @param IEntity $entity
+     * @return bool
+     */
+    public function isFirst(IEntity $entity)
+    {
+        return call_user_func($this->getActiveRecordMethod($entity, 'isFirst'));
+    }
+
+    /**
+     * @param IEntity $entity
+     * @return bool
+     */
+    public function isLast(IEntity $entity)
+    {
+        return call_user_func($this->getActiveRecordMethod($entity, 'isLast'));
+    }
+
+    /**
+     * @param IEntity $entity
+     * @return bool
+     */
+    public function moveUp(IEntity $entity)
+    {
+        call_user_func($this->getActiveRecordMethod($entity, 'moveUp'));
+
+        return true;
+    }
+
+    /**
+     * @param IEntity $entity
+     * @return bool
+     */
+    public function moveDown(IEntity $entity)
+    {
+        call_user_func($this->getActiveRecordMethod($entity, 'moveDown'));
+
+        return true;
+    }
+
+    /**
+     * @param IEntity $entity
+     * @return bool
+     */
+    public function moveToTop(IEntity $entity)
+    {
+        call_user_func($this->getActiveRecordMethod($entity, 'moveToTop'));
+
+        return true;
+    }
+
+    /**
+     * @param IEntity $entity
+     * @return bool
+     */
+    public function moveToBottom(IEntity $entity)
+    {
+        call_user_func($this->getActiveRecordMethod($entity, 'moveToBottom'));
+
+        return true;
+    }
+
+    /**
+     * @param IEntity $entityA
+     * @param IEntity $entityB
+     * @return bool
+     */
+    public function swapRank(IEntity $entityA, IEntity $entityB)
+    {
+
+
+        if (($entityA instanceof Entity) && ($entityB instanceof Entity)) {
+            call_user_func($this->getActiveRecordMethod($entityA, 'swapWith'), $entityB->getRecord());
+
+            return true;
+        } else {
+            throw new UnsupportedException('Propel entities allowed only');
+        }
+    }
+
+    /**
+     * @return ICanRank
+     */
+    public function sortByRank($reverse = false)
+    {
+        $this->rankSortAsc = !$reverse;
+        $this->rankSortDesc = $reverse;
     }
 }

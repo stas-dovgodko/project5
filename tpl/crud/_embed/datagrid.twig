@@ -49,7 +49,7 @@
 
                     {% if decorator and not decorator.isFlagEnabled(constant('FLAG_HIDE_LIST', decorator)) %}
 
-                        {% set is_sortable = sortable[column.getName] %}
+                        {% set is_sortable = provider.canSort and not provider.canRank and sortable[column.getName] %}
                         <th {% if is_sortable %}class="sortable"{% endif %}>
                             {% if is_sortable and sortable[column.getName].url %}
                             <a href="{{ sortable[column.getName].url }}" style="white-space: nowrap">
@@ -100,18 +100,32 @@
                         <div  class="pull-right">
                             {% block list_actions_extra %}
                             {% endblock %}
+
+                            {% if page.hasRank %} {# rank func #}
+                                {% if not provider.isLast(item) %}
+                                    <a class="btn btn-link btn-xs xedit" href="{{ page.urlRank({'action':'down','id':page.encodeUid(item)}) }}" role="link" title="{{ 'Edit'|_ }}">
+                                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                    </a>
+                                {% endif %}
+                                {% if not provider.isFirst(item) %}
+                                    <a class="btn btn-link btn-xs xedit" href="{{ page.urlRank({'action':'up','id':page.encodeUid(item)}) }}" role="link" title="{{ 'Edit'|_ }}">
+                                        <i class="fa fa-angle-up" aria-hidden="true"></i>
+                                    </a>
+                                {% endif %}
+                            {% endif %}
+
                             {% if has_edit %}
-                                <a class="btn btn-default btn-xs xedit" href="{{ page.urlEdit({'id':page.encodeUid(item)}) }}" role="link" title="{{ 'Edit'|_ }}">
+                                <a class="btn btn-link btn-xs xedit" href="{{ page.urlEdit({'id':page.encodeUid(item)}) }}" role="link" title="{{ 'Edit'|_ }}">
                                     <i class="fa fa-pencil" aria-hidden="true"></i>
                                 </a>
                             {% elseif has_view %}
-                                <a class="btn btn-default btn-xs xview" href="{{ page.urlView({'id':page.encodeUid(item)}) }}" role="link" title="{{ 'View'|_ }}">
+                                <a class="btn btn-link btn-xs xview" href="{{ page.urlView({'id':page.encodeUid(item)}) }}" role="link" title="{{ 'View'|_ }}">
                                     <i class="fa fa-file-o" aria-hidden="true"></i>
                                 </a>
                             {% endif %}
 
                             {% if has_delete %}
-                                <a class="btn btn-default btn-xs xdelete" href="{{ page.urlDelete({'id':page.encodeUid(item)}) }}" role="link" title="{{ 'Delete'|_ }}">
+                                <a class="btn btn-link btn-xs xdelete" href="{{ page.urlDelete({'id':page.encodeUid(item)}) }}" role="link" title="{{ 'Delete'|_ }}">
                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                 </a>
                             {% endif %}

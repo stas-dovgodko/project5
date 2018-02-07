@@ -30,6 +30,11 @@ class Decorator implements IField
     protected $title;
 
     /**
+     * @var string|null
+     */
+    protected $description = null;
+
+    /**
      * @var callable|null
      */
     protected $urlCallback = null;
@@ -172,6 +177,10 @@ class Decorator implements IField
 
             $this->formField->canBeEmpty($this->field->canBeEmpty());
 
+            if ($this->description !== null) {
+                $this->formField->setDescription($this->description);
+            }
+
             if ($this->formfieldCallback) {
                 call_user_func($this->formfieldCallback, $this->formField);
             }
@@ -212,7 +221,14 @@ class Decorator implements IField
      */
     public function getDescription()
     {
-        return $this->field->getDescription();
+        return ($this->description !== null) ? $this->description : $this->field->getDescription();
+    }
+
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
     }
 
     /**

@@ -56,6 +56,18 @@
             background-color: #d9534f;
             border-color: #d43f3a;
         }
+
+        .truncate {
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+        }
+        .truncate div {
+            display: table-cell;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
     </style>
 
 

@@ -13,7 +13,11 @@
 
         {% if decorator.hasUrl %}<a href="{{ decorator.getUrl(item) }}">{% endif %}
 
-        {% if decorator is a('crud') %}
+        {% if decorator is a('clob') %}
+            {% set value_title = decorator.get(item) %}
+
+            <div class="truncate"><div>{{value_title}}</div></div>
+        {% elseif decorator is a('crud') %}
             {% set value_title = decorator.getValueTitle(item) %}
 
             {% if decorator.hasUrl %}<span class="label label-primary">{{value_title}}</span>{% else %}<span class="label label-default">{{value_title}}</span>{% endif %}

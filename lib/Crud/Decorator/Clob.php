@@ -11,10 +11,6 @@ class Clob extends Decorator {
     public function __construct(IField $field)
     {
         parent::__construct($field);
-
-        $this->setHtmlCallback(function() {
-            return '<span class="glyphicon glyphicon-file" ></span>';
-        });
     }
 
     protected function buildFormField()
