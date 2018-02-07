@@ -556,15 +556,18 @@
                 $value = $this->getValue($field);
 
                 $this->resetFieldError($field);
+
+                $options = $this->fields->offsetGet($field);
+
                 // check for required
-                if ($field->canBeEmpty() && empty($value)) {
+                if ($field->canBeEmpty() && empty($value) && empty($options['validators'])) {
                     // ignore
                 } elseif (!$ignoreRequired && !$field->canBeEmpty() && empty($value)) {
                     $this->addFieldError($field, $field->getEmptyErrorMessage() ?: 'Required field');
                     $valid &= false;
                 } else {
 
-                    $options = $this->fields->offsetGet($field);
+
 
                     if (!empty($options['validators'])) {
 
