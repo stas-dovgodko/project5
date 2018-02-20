@@ -54,7 +54,7 @@ services:
         class:     Assetic\FilterManager
         calls:
              - [set, ["css", "@asset.filter.yuicss"]]
-             - [set, ["js", "@asset.filter.yuijs"]]
+             - [set, ["js", "@asset.filter.closurecompiler"]]
 
     asset.worker.dump:
         class:     project5\Assetic\Worker
