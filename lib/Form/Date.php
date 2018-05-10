@@ -3,7 +3,7 @@
 
     class Date extends Field
     {
-        protected $timeZone = nul;
+        protected $timeZone = null;
         protected $format = 'MM/DD/YYYY HH:mm';
 
         /**
